@@ -1,5 +1,13 @@
 # ŞİGAL • Modern New Tab Chrome Eklentisi
 
+[![Doğrudan İndir (ZIP)](https://img.shields.io/badge/Hemen_İndir-SIGAL__Extension__v2.3.zip-22c55e?style=for-the-badge&logo=googlechrome&logoColor=white)](https://github.com/Bedirhan3428/SIGAL_EXTENSION/raw/main/SIGAL_Extension_v2.3.zip)
+[![Sürüm](https://img.shields.io/badge/Sürüm-2.3.1-blue?style=for-the-badge)](https://github.com/Bedirhan3428/SIGAL_EXTENSION)
+[![Platform](https://img.shields.io/badge/Platform-Chrome_|_Edge_|_Brave-orange?style=for-the-badge)](https://github.com/Bedirhan3428/SIGAL_EXTENSION)
+
+> ### 📦 Doğrudan İndirme Bağlantısı
+> Eklentiyi tarayıcınıza hemen kurmak için aşağıdaki bağlantıya tıklayarak hazır ZIP paketini indirebilirsiniz:  
+> 🔗 [**SIGAL_Extension_v2.3.zip (Hemen İndir)**](https://github.com/Bedirhan3428/SIGAL_EXTENSION/raw/main/SIGAL_Extension_v2.3.zip)
+
 ŞİGAL, Google Chrome ve Chromium tabanlı tarayıcılar (Brave, Edge, Opera) için geliştirilmiş; minimalist estetiği, yüksek performansı ve üretkenlik odaklı araçları bir araya getiren modern yeni sekme (New Tab) eklentisidir.
 
 ---
