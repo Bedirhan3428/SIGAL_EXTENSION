@@ -1,0 +1,2868 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yeni Sekme</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Plus Jakarta Sans -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #07080b;
+            --panel-bg: rgba(18, 20, 32, 0.7);
+            --panel-border: rgba(255, 255, 255, 0.08);
+            --input-bg: rgba(10, 12, 20, 0.6);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent-color: #6366f1;
+            --accent-glow: rgba(99, 102, 241, 0.35);
+            --accent-hover: #4f46e5;
+        }
+
+        [data-accent="cyan"] {
+            --accent-color: #06b6d4;
+            --accent-glow: rgba(6, 182, 212, 0.35);
+            --accent-hover: #0891b2;
+        }
+        [data-accent="emerald"] {
+            --accent-color: #10b981;
+            --accent-glow: rgba(16, 185, 129, 0.35);
+            --accent-hover: #059669;
+        }
+        [data-accent="purple"] {
+            --accent-color: #a855f7;
+            --accent-glow: rgba(168, 85, 247, 0.35);
+            --accent-hover: #9333ea;
+        }
+        [data-accent="amber"] {
+            --accent-color: #f59e0b;
+            --accent-glow: rgba(245, 158, 11, 0.35);
+            --accent-hover: #d97706;
+        }
+        [data-accent="pink"] {
+            --accent-color: #ec4899;
+            --accent-glow: rgba(236, 72, 153, 0.35);
+            --accent-hover: #db2777;
+        }
+
+        /* ==================== AYDINLIK MOD (LIGHT THEME) ==================== */
+        [data-theme="light"] {
+            --bg-color: #f3f5f9;
+            --panel-bg: rgba(255, 255, 255, 0.85);
+            --panel-border: rgba(226, 232, 240, 0.95);
+            --input-bg: rgba(248, 250, 252, 0.95);
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --accent-color: #4f46e5;
+            --accent-glow: rgba(79, 70, 229, 0.22);
+            --accent-hover: #4338ca;
+        }
+
+        [data-theme="light"][data-accent="cyan"] {
+            --accent-color: #0891b2;
+            --accent-glow: rgba(8, 145, 178, 0.22);
+            --accent-hover: #0e7490;
+        }
+        [data-theme="light"][data-accent="emerald"] {
+            --accent-color: #059669;
+            --accent-glow: rgba(5, 150, 105, 0.22);
+            --accent-hover: #047857;
+        }
+        [data-theme="light"][data-accent="purple"] {
+            --accent-color: #9333ea;
+            --accent-glow: rgba(147, 51, 234, 0.22);
+            --accent-hover: #7e22ce;
+        }
+        [data-theme="light"][data-accent="amber"] {
+            --accent-color: #d97706;
+            --accent-glow: rgba(217, 119, 6, 0.22);
+            --accent-hover: #b45309;
+        }
+        [data-theme="light"][data-accent="pink"] {
+            --accent-color: #db2777;
+            --accent-glow: rgba(219, 39, 119, 0.22);
+            --accent-hover: #be185d;
+        }
+
+        /* Light Theme Element Overrides */
+        [data-theme="light"] .orb {
+            opacity: 0.12;
+            filter: blur(100px);
+        }
+
+        [data-theme="light"] .glass-panel {
+            box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.05), 0 4px 12px -2px rgba(0, 0, 0, 0.03);
+        }
+
+        [data-theme="light"] .time-display {
+            text-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+        }
+
+        [data-theme="light"] .search-input {
+            border-color: rgba(226, 232, 240, 0.95);
+            box-shadow: 0 6px 20px -2px rgba(0, 0, 0, 0.06);
+        }
+
+        [data-theme="light"] .search-input:focus {
+            background: #ffffff;
+            box-shadow: 0 0 0 3px var(--accent-glow), 0 6px 20px -2px rgba(0, 0, 0, 0.06);
+        }
+
+        [data-theme="light"] .search-form.has-suggestions .search-input {
+            background: #ffffff;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+            box-shadow: 0 6px 20px -2px rgba(0, 0, 0, 0.08);
+        }
+
+        [data-theme="light"] .search-suggestions-dropdown {
+            background: #ffffff;
+            border-color: var(--accent-color);
+            box-shadow: 0 16px 36px rgba(0, 0, 0, 0.12), 0 4px 16px var(--accent-glow);
+        }
+
+        [data-theme="light"] .suggestion-item:hover,
+        [data-theme="light"] .suggestion-item.selected {
+            background: rgba(0, 0, 0, 0.04);
+        }
+
+        [data-theme="light"] .shortcut-card {
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.03);
+        }
+
+        [data-theme="light"] .shortcut-card:hover {
+            box-shadow: 0 10px 24px -2px var(--accent-glow), 0 4px 12px rgba(0, 0, 0, 0.04);
+        }
+
+        [data-theme="light"] .shortcut-icon-box {
+            background: rgba(241, 245, 249, 0.85);
+        }
+
+        [data-theme="light"] .forecast-card {
+            background: rgba(248, 250, 252, 0.9);
+            border-color: rgba(226, 232, 240, 0.9);
+        }
+
+        [data-theme="light"] .forecast-card:hover {
+            background: #ffffff;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+        }
+
+        [data-theme="light"] .forecast-card.today {
+            background: rgba(79, 70, 229, 0.08);
+        }
+
+        [data-theme="light"] .modal-backdrop {
+            background: rgba(15, 23, 42, 0.45);
+        }
+
+        [data-theme="light"] .modal-card {
+            background: #ffffff;
+            border-color: rgba(226, 232, 240, 0.95);
+            box-shadow: 0 24px 48px -12px rgba(0, 0, 0, 0.16);
+        }
+
+        [data-theme="light"] .form-input,
+        [data-theme="light"] .form-select {
+            background: #f8fafc;
+            border-color: #cbd5e1;
+            color: #0f172a;
+        }
+
+        [data-theme="light"] .form-input:focus,
+        [data-theme="light"] .form-select:focus {
+            background: #ffffff;
+        }
+
+        [data-theme="light"] .form-select option {
+            background: #ffffff;
+            color: #0f172a;
+        }
+
+        [data-theme="light"] .mini-tool-btn,
+        [data-theme="light"] .focus-pill,
+        [data-theme="light"] .quote-next-btn,
+        [data-theme="light"] .btn-weather-action,
+        [data-theme="light"] .bell-manage-btn {
+            background: rgba(248, 250, 252, 0.9);
+            border-color: rgba(226, 232, 240, 0.9);
+        }
+
+        [data-theme="light"] .day-progress-container {
+            background: rgba(0, 0, 0, 0.02);
+        }
+
+        [data-theme="light"] .progress-bar-bg {
+            background: rgba(0, 0, 0, 0.06);
+        }
+
+        [data-theme="light"] .toggle-slider {
+            background-color: #e2e8f0;
+            border-color: #cbd5e1;
+        }
+
+        [data-theme="light"] .toggle-slider:before {
+            background-color: #94a3b8;
+        }
+
+        [data-theme="light"] .btn-icon {
+            background: rgba(255, 255, 255, 0.85);
+            border-color: rgba(226, 232, 240, 0.9);
+        }
+
+        [data-theme="light"] .btn-icon:hover {
+            background: #ffffff;
+            border-color: var(--accent-color);
+        }
+
+        [data-theme="light"] .developer-menu-card {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.02), rgba(0, 0, 0, 0.01));
+            border-color: rgba(226, 232, 240, 0.95);
+        }
+
+        [data-theme="light"] .modal-close {
+            background: #f1f5f9;
+            border-color: #e2e8f0;
+            color: #64748b;
+        }
+
+        [data-theme="light"] .modal-close:hover {
+            color: #0f172a;
+            border-color: var(--accent-color);
+        }
+
+        [data-theme="light"] ::-webkit-scrollbar-thumb {
+            background: rgba(0, 0, 0, 0.15);
+        }
+
+        [data-theme="light"] ::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 0, 0, 0.28);
+        }
+
+        /* ==================== GİZLİ OYUN & EASTER EGG SİSTEMİ ==================== */
+        .terminal-btn {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            padding: 11px 16px;
+            background: rgba(16, 185, 129, 0.08);
+            border: 1px solid rgba(16, 185, 129, 0.25);
+            border-radius: 10px;
+            color: #34d399;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 0.84rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: left;
+        }
+        .terminal-btn:hover {
+            background: rgba(16, 185, 129, 0.22);
+            border-color: #10b981;
+            color: #ecfdf5;
+            transform: translateX(5px);
+            box-shadow: 0 0 16px rgba(16, 185, 129, 0.25);
+        }
+        .terminal-btn .cmd-num {
+            color: #10b981;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        .terminal-btn .cmd-tag {
+            font-size: 0.68rem;
+            padding: 2px 8px;
+            border-radius: 4px;
+            background: rgba(16, 185, 129, 0.2);
+            color: #6ee7b7;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            font-weight: 700;
+            letter-spacing: 0.05em;
+        }
+
+        /* Retro Toast / Başarım Rozeti */
+        .retro-toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: rgba(15, 23, 42, 0.94);
+            border: 2px solid var(--accent-color);
+            box-shadow: 0 10px 30px var(--accent-glow), 0 0 15px var(--accent-color);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            color: #f8fafc;
+            padding: 14px 24px;
+            border-radius: 16px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            z-index: 100000;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .retro-toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+        .retro-toast i {
+            color: var(--accent-color);
+            font-size: 1.3rem;
+            animation: pulse 1.5s infinite;
+        }
+
+        /* Oyun & Mod HUD Göstergeleri */
+        .game-hud-overlay {
+            position: fixed;
+            top: 22px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            background: rgba(10, 14, 24, 0.9);
+            border: 1px solid var(--accent-color);
+            box-shadow: 0 10px 36px rgba(0, 0, 0, 0.6), 0 0 20px var(--accent-glow);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            padding: 10px 24px;
+            border-radius: 30px;
+            z-index: 99999;
+            color: #f8fafc;
+            font-family: 'Consolas', monospace;
+            font-size: 0.9rem;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            animation: slideDown 0.3s ease;
+        }
+        .game-hud-btn {
+            background: rgba(239, 68, 68, 0.2);
+            border: 1px solid rgba(239, 68, 68, 0.4);
+            color: #fca5a5;
+            padding: 6px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.8rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .game-hud-btn:hover {
+            background: rgba(239, 68, 68, 0.4);
+            color: #ffffff;
+            border-color: #ef4444;
+        }
+
+        /* Breakout Game Canvas */
+        #sigalGameCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 99990;
+            pointer-events: all;
+            background: rgba(6, 8, 15, 0.86);
+        }
+
+        /* ==================== GOOGLE UYGULAMALARI (9 NOKTALI WAFFLE MENÜ) ==================== */
+        .google-apps-wrapper {
+            position: relative;
+            z-index: 1001;
+        }
+
+        .btn-waffle {
+            width: 42px;
+            height: 42px;
+            padding: 0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 14px;
+            color: var(--text-muted);
+            transition: all 0.2s ease;
+        }
+
+        .btn-waffle:hover,
+        .btn-waffle.active {
+            color: var(--text-main);
+            border-color: var(--accent-color);
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 16px var(--accent-glow);
+        }
+
+        .btn-waffle svg {
+            transition: transform 0.2s ease;
+        }
+
+        .btn-waffle:hover svg {
+            transform: scale(1.08);
+        }
+
+        .google-apps-dropdown {
+            position: absolute;
+            top: calc(100% + 12px);
+            right: 0;
+            width: 324px;
+            max-height: 490px;
+            overflow-y: auto;
+            border-radius: 22px;
+            padding: 16px;
+            z-index: 999999;
+            display: none;
+            opacity: 0;
+            transform: translateY(-10px) scale(0.96);
+            transform-origin: top right;
+            transition: opacity 0.22s cubic-bezier(0.16, 1, 0.3, 1), transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 20px 48px rgba(0, 0, 0, 0.6), 0 0 1px rgba(255, 255, 255, 0.12);
+        }
+
+        .google-apps-dropdown.show {
+            display: block;
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        .google-apps-header {
+            font-size: 0.76rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            padding: 0 4px 10px 4px;
+            margin-bottom: 8px;
+            border-bottom: 1px solid var(--panel-border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .google-apps-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+        }
+
+        .google-app-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 6px;
+            border-radius: 14px;
+            text-decoration: none;
+            color: var(--text-main);
+            transition: all 0.18s ease;
+            cursor: pointer;
+            border: 1px solid transparent;
+        }
+
+        .google-app-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--panel-border);
+            transform: translateY(-2px);
+        }
+
+        .google-app-icon-wrap {
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.04);
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .google-app-icon-wrap img {
+            width: 32px;
+            height: 32px;
+            object-fit: contain;
+            border-radius: 6px;
+            display: block;
+            pointer-events: none;
+            user-select: none;
+            transition: transform 0.2s ease;
+        }
+
+        .google-app-item:hover .google-app-icon-wrap {
+            transform: scale(1.08);
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+        }
+
+        [data-theme="light"] .google-app-icon-wrap {
+            background: rgba(0, 0, 0, 0.03);
+        }
+
+        [data-theme="light"] .google-app-item:hover .google-app-icon-wrap {
+            background: rgba(0, 0, 0, 0.06);
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+        }
+
+        .google-app-name {
+            font-size: 0.74rem;
+            font-weight: 600;
+            text-align: center;
+            color: var(--text-main);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100%;
+        }
+
+        .google-apps-footer {
+            margin-top: 12px;
+            padding-top: 10px;
+            border-top: 1px solid var(--panel-border);
+            text-align: center;
+        }
+
+        .google-more-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--accent-color);
+            text-decoration: none;
+            padding: 6px 14px;
+            border-radius: 10px;
+            transition: background 0.15s ease;
+        }
+
+        .google-more-link:hover {
+            background: var(--accent-glow);
+        }
+
+        /* Light Mode Uyum */
+        [data-theme="light"] .btn-waffle:hover,
+        [data-theme="light"] .btn-waffle.active {
+            background: #ffffff;
+            color: var(--text-main);
+            border-color: var(--accent-color);
+        }
+
+        [data-theme="light"] .google-apps-dropdown {
+            background: #ffffff;
+            border-color: rgba(226, 232, 240, 0.95);
+            box-shadow: 0 20px 48px rgba(0, 0, 0, 0.12), 0 4px 16px rgba(0, 0, 0, 0.04);
+        }
+
+        [data-theme="light"] .google-app-item:hover {
+            background: #f1f5f9;
+            border-color: #e2e8f0;
+        }
+
+        /* ==================== YKSM TAM EKRAN VİDEO ==================== */
+        .yksm-video-overlay {
+            position: fixed;
+            inset: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 99999999;
+            background: #000000;
+            display: none;
+            flex-direction: column;
+            opacity: 0;
+            transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .yksm-video-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .yksm-video-topbar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+            background: linear-gradient(180deg, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0) 100%);
+            z-index: 10;
+            opacity: 1;
+            transition: opacity 0.3s ease;
+        }
+
+        .yksm-video-topbar.fade-out {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .yksm-video-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #ffffff;
+            font-size: 0.95rem;
+            font-weight: 600;
+        }
+
+        .yksm-video-badge {
+            background: var(--accent-color, #4f46e5);
+            color: #ffffff;
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 8px;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+
+        .yksm-video-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .yksm-video-btn {
+            background: rgba(255, 255, 255, 0.14);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.22);
+            padding: 8px 16px;
+            border-radius: 12px;
+            font-size: 0.84rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            backdrop-filter: blur(12px);
+            transition: all 0.2s ease;
+        }
+
+        .yksm-video-btn:hover {
+            background: rgba(255, 255, 255, 0.28);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: translateY(-1px);
+        }
+
+        .yksm-video-btn.btn-close-yksm {
+            background: rgba(239, 68, 68, 0.88);
+            border-color: rgba(239, 68, 68, 0.95);
+        }
+
+        .yksm-video-btn.btn-close-yksm:hover {
+            background: rgba(239, 68, 68, 1);
+            box-shadow: 0 0 16px rgba(239, 68, 68, 0.45);
+        }
+
+        .yksm-video-frame-container {
+            width: 100%;
+            height: 100%;
+            flex: 1;
+            position: relative;
+            background: #000000;
+        }
+
+        .yksm-video-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: block;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 24px;
+            overflow-x: hidden;
+            position: relative;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* Ambient Custom Background Hero Backdrop */
+        .custom-bg-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 68vh;
+            max-height: 750px;
+            z-index: 0;
+            pointer-events: none;
+            background-size: cover;
+            background-position: center top;
+            background-repeat: no-repeat;
+            opacity: 0.62;
+            display: none;
+            mask-image: radial-gradient(ellipse 85% 75% at 50% 25%, black 20%, transparent 95%),
+                        linear-gradient(to bottom, black 35%, transparent 100%);
+            -webkit-mask-image: radial-gradient(ellipse 85% 75% at 50% 25%, black 20%, transparent 95%),
+                                linear-gradient(to bottom, black 35%, transparent 100%);
+            mask-composite: intersect;
+            -webkit-mask-composite: source-in;
+            transition: opacity 0.5s ease;
+        }
+
+        .custom-bg-backdrop::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse 80% 65% at 50% 25%, transparent 10%, var(--bg-color) 85%),
+                        linear-gradient(to bottom, transparent 30%, var(--bg-color) 100%);
+            pointer-events: none;
+        }
+
+        /* Ambient Glow Background Orbs */
+        .orb {
+            position: absolute;
+            width: 380px;
+            height: 380px;
+            border-radius: 50%;
+            filter: blur(90px);
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.15;
+            background: var(--accent-color);
+            transition: background 0.5s ease;
+        }
+        .orb-1 { top: 10%; left: 15%; }
+        .orb-2 { bottom: 10%; right: 15%; }
+
+        /* Glassmorphism Panel */
+        .glass-panel {
+            background: var(--panel-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--panel-border);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            border-radius: 20px;
+        }
+
+        /* Header */
+        header {
+            width: 100%;
+            max-width: 1280px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            z-index: 1000;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            width: 42px;
+            height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent-color);
+            font-size: 1.1rem;
+            border-radius: 14px;
+        }
+
+        .logo-text h1 {
+            font-size: 0.9rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            color: var(--text-main);
+        }
+
+        .logo-text p {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-icon {
+            padding: 10px 16px;
+            border-radius: 14px;
+            border: 1px solid var(--panel-border);
+            background: var(--panel-bg);
+            color: var(--text-muted);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .btn-icon:hover {
+            color: var(--text-main);
+            border-color: var(--accent-color);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .btn-icon i {
+            color: var(--accent-color);
+        }
+
+        /* Main Workspace Container */
+        main {
+            width: 100%;
+            max-width: 840px;
+            margin: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 32px;
+            z-index: 10;
+            padding: 30px 0;
+        }
+
+        /* Clock Widget */
+        .widget-clock {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .time-display {
+            font-size: 5.5rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            line-height: 1;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+            text-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .time-sec {
+            font-size: 1.8rem;
+            font-weight: 500;
+            color: var(--accent-color);
+        }
+
+        .greeting-display {
+            font-size: 1.3rem;
+            font-weight: 500;
+            color: var(--text-muted);
+        }
+
+        .user-name-span {
+            color: var(--accent-color);
+            font-weight: 600;
+            cursor: pointer;
+            border-bottom: 1px dashed var(--accent-color);
+        }
+
+        .greeting-sub {
+            font-size: 0.88rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            margin-top: 6px;
+            letter-spacing: 0.2px;
+            transition: all 0.3s ease;
+        }
+
+        /* Search Bar Widget */
+        .widget-search {
+            width: 100%;
+            max-width: 600px;
+            position: relative;
+            z-index: 100;
+        }
+
+        .search-form {
+            position: relative;
+            width: 100%;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 18px;
+            color: var(--accent-color);
+            font-size: 1.1rem;
+            pointer-events: none;
+            transition: all 0.2s ease;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 16px 50px 16px 50px;
+            border-radius: 18px;
+            background: var(--input-bg);
+            border: 1px solid var(--panel-border);
+            color: var(--text-main);
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, border-radius 0.15s ease;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .search-input:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 20px var(--accent-glow);
+        }
+
+        /* Seamless connection when predictive suggestions appear */
+        .search-form.has-suggestions .search-input {
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+            border-color: var(--accent-color);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(15, 18, 30, 0.98);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5), 0 0 18px var(--accent-glow);
+        }
+
+        .search-input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .search-submit-btn {
+            position: absolute;
+            right: 12px;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            padding: 8px 10px;
+            border-radius: 10px;
+            transition: all 0.2s;
+        }
+
+        .search-submit-btn:hover {
+            color: var(--text-main);
+            background: rgba(255,255,255,0.08);
+        }
+
+        /* Chrome-Style Predictive Search Dropdown */
+        .search-suggestions-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: rgba(15, 18, 30, 0.98);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--accent-color);
+            border-top: none;
+            border-bottom-left-radius: 18px;
+            border-bottom-right-radius: 18px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.65), 0 8px 24px var(--accent-glow);
+            padding: 4px 0 8px 0;
+            z-index: 1000;
+            overflow: hidden;
+            display: none;
+            animation: omniboxSlideDown 0.16s ease forwards;
+        }
+
+        @keyframes omniboxSlideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-4px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .suggestion-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 22px;
+            cursor: pointer;
+            transition: background 0.12s ease;
+            user-select: none;
+            gap: 12px;
+        }
+
+        .suggestion-item:hover,
+        .suggestion-item.selected {
+            background: rgba(255, 255, 255, 0.07);
+        }
+
+        [data-accent="indigo"] .suggestion-item.selected { background: rgba(99, 102, 241, 0.18); }
+        [data-accent="cyan"] .suggestion-item.selected { background: rgba(6, 182, 212, 0.18); }
+        [data-accent="emerald"] .suggestion-item.selected { background: rgba(16, 185, 129, 0.18); }
+        [data-accent="purple"] .suggestion-item.selected { background: rgba(168, 85, 247, 0.18); }
+        [data-accent="amber"] .suggestion-item.selected { background: rgba(245, 158, 11, 0.18); }
+        [data-accent="pink"] .suggestion-item.selected { background: rgba(236, 72, 153, 0.18); }
+
+        .suggestion-text {
+            font-size: 0.94rem;
+            color: var(--text-main);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            line-height: 1.35;
+            flex: 1;
+        }
+
+        .suggestion-text .matched-text {
+            color: var(--text-muted);
+            font-weight: 400;
+        }
+
+        .suggestion-text b,
+        .suggestion-text strong {
+            color: var(--text-main);
+            font-weight: 600;
+        }
+
+        .suggestion-del-btn {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            width: 26px;
+            height: 26px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            opacity: 0.45;
+            transition: all 0.15s ease;
+            flex-shrink: 0;
+            margin-left: auto;
+        }
+
+        .suggestion-del-btn:hover {
+            opacity: 1;
+            color: #f87171;
+            background: rgba(239, 68, 68, 0.16);
+            transform: scale(1.1);
+        }
+
+        /* Shortcuts Widget */
+        .widget-shortcuts {
+            width: 100%;
+        }
+
+        .shortcuts-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            padding: 0 4px;
+        }
+
+        .shortcuts-title {
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .shortcuts-title i {
+            color: var(--accent-color);
+        }
+
+        .btn-add-shortcut {
+            background: var(--panel-bg);
+            border: 1px solid var(--panel-border);
+            color: var(--text-muted);
+            padding: 6px 12px;
+            border-radius: 10px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+        }
+
+        .btn-add-shortcut:hover {
+            color: var(--text-main);
+            border-color: var(--accent-color);
+        }
+
+        .shortcuts-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 14px;
+        }
+
+        @media(max-width: 768px) {
+            .shortcuts-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .shortcut-card {
+            background: var(--panel-bg);
+            border: 1px solid var(--panel-border);
+            border-radius: 18px;
+            padding: 16px 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            group: true;
+        }
+
+        .shortcut-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent-color);
+            box-shadow: 0 10px 25px var(--accent-glow);
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        .shortcut-icon-box {
+            width: 44px;
+            height: 44px;
+            border-radius: 14px;
+            background: var(--input-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: var(--text-main);
+            transition: transform 0.2s;
+            overflow: hidden;
+        }
+
+        .shortcut-icon-box img.favicon-img {
+            width: 26px;
+            height: 26px;
+            object-fit: contain;
+            border-radius: 4px;
+        }
+
+        .shortcut-card:hover .shortcut-icon-box {
+            transform: scale(1.1);
+            color: var(--accent-color);
+        }
+
+        .shortcut-name {
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            max-width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .shortcut-card:hover .shortcut-name {
+            color: var(--text-main);
+        }
+
+        .btn-delete-shortcut {
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 0.7rem;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.2s, color 0.2s;
+            padding: 4px;
+        }
+
+        .shortcut-card:hover .btn-delete-shortcut {
+            opacity: 1;
+        }
+
+        .btn-delete-shortcut:hover {
+            color: #ef4444;
+        }
+
+        /* Bottom Widgets Grid (Todo & Quote) */
+        .bottom-widgets {
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media(max-width: 768px) {
+            .bottom-widgets {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .widget-box {
+            padding: 24px;
+            border-radius: 22px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 280px;
+        }
+
+        .widget-box-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 14px;
+        }
+
+        .widget-box-title {
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .widget-box-title i {
+            color: var(--accent-color);
+        }
+
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            padding: 10px 14px;
+            border-radius: 12px;
+            background: var(--input-bg);
+            color: var(--text-main);
+            border: 1px solid var(--panel-border);
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        .btn-secondary:hover {
+            border-color: var(--accent-color);
+            color: var(--accent-color);
+        }
+
+        /* Toggle Switch */
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 44px;
+            height: 24px;
+        }
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: var(--input-bg);
+            border: 1px solid var(--panel-border);
+            transition: .3s;
+            border-radius: 24px;
+        }
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 3px;
+            bottom: 3px;
+            background-color: var(--text-muted);
+            transition: .3s;
+            border-radius: 50%;
+        }
+        .toggle-switch input:checked + .toggle-slider {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+            box-shadow: 0 0 10px var(--accent-glow);
+        }
+        .toggle-switch input:checked + .toggle-slider:before {
+            transform: translateX(20px);
+            background-color: #fff;
+        }
+
+        /* Focus & Time Hub */
+        .mini-tool-btn {
+            width: 30px;
+            height: 30px;
+            border-radius: 10px;
+            border: 1px solid var(--panel-border);
+            background: var(--input-bg);
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.8rem;
+        }
+        .mini-tool-btn:hover, .mini-tool-btn.active {
+            color: var(--accent-color);
+            border-color: var(--accent-color);
+            box-shadow: 0 0 10px var(--accent-glow);
+        }
+
+        .day-progress-container {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--panel-border);
+            border-radius: 14px;
+            padding: 10px 14px;
+            margin-bottom: 8px;
+        }
+        .day-progress-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: var(--text-main);
+            margin-bottom: 6px;
+        }
+        .day-progress-val {
+            color: var(--accent-color);
+            font-weight: 700;
+        }
+        .progress-bar-bg {
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 99px;
+            overflow: hidden;
+        }
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-color), #38bdf8);
+            border-radius: 99px;
+            transition: width 0.4s ease;
+        }
+        .day-progress-meta {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+            text-align: right;
+        }
+
+        .focus-pills {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 8px;
+        }
+        .focus-pill {
+            flex: 1;
+            padding: 5px 2px;
+            border-radius: 8px;
+            border: 1px solid var(--panel-border);
+            background: var(--input-bg);
+            color: var(--text-muted);
+            font-size: 0.72rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+        .focus-pill:hover, .focus-pill.active {
+            border-color: var(--accent-color);
+            color: var(--accent-color);
+            background: rgba(99, 102, 241, 0.1);
+        }
+
+        .focus-display-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--panel-border);
+            border-radius: 14px;
+            padding: 8px 14px;
+        }
+        .focus-time-display {
+            font-size: 1.7rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            color: var(--text-main);
+            font-variant-numeric: tabular-nums;
+        }
+        .focus-controls {
+            display: flex;
+            gap: 8px;
+        }
+        .focus-control-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+        .focus-control-btn.primary {
+            background: var(--accent-color);
+            color: #fff;
+            box-shadow: 0 2px 10px var(--accent-glow);
+        }
+        .focus-control-btn.primary:hover {
+            background: var(--accent-hover);
+            transform: scale(1.05);
+        }
+        .focus-control-btn.secondary {
+            background: var(--input-bg);
+            border: 1px solid var(--panel-border);
+            color: var(--text-muted);
+        }
+        .focus-control-btn.secondary:hover {
+            color: var(--text-main);
+            border-color: var(--text-muted);
+        }
+
+        /* Bell Tracker Widget */
+        .bell-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 8px;
+        }
+        .bell-status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 5px 12px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--panel-border);
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            align-self: flex-start;
+        }
+        .bell-status-badge.in {
+            border-color: #10b981;
+            color: #34d399;
+            background: rgba(16, 185, 129, 0.1);
+        }
+        .bell-status-badge.out {
+            border-color: #f59e0b;
+            color: #fbbf24;
+            background: rgba(245, 158, 11, 0.1);
+        }
+        .bell-status-badge.lunch {
+            border-color: #38bdf8;
+            color: #38bdf8;
+            background: rgba(56, 189, 248, 0.1);
+        }
+        .bell-status-badge.exit {
+            border-color: #a855f7;
+            color: #c084fc;
+            background: rgba(168, 85, 247, 0.1);
+        }
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: currentColor;
+            box-shadow: 0 0 8px currentColor;
+        }
+        .bell-countdown-box {
+            margin: 2px 0;
+        }
+        .bell-countdown-time {
+            font-size: 2.1rem;
+            font-weight: 800;
+            color: var(--text-main);
+            font-variant-numeric: tabular-nums;
+            line-height: 1.1;
+        }
+        .bell-next-info {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+        .bell-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            padding-top: 10px;
+        }
+        .bell-manage-btn {
+            background: none;
+            border: 1px solid var(--panel-border);
+            color: var(--accent-color);
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-size: 0.72rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .bell-manage-btn:hover {
+            background: rgba(99, 102, 241, 0.1);
+            border-color: var(--accent-color);
+        }
+
+        /* Bell Modal */
+        .bell-add-form {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 14px;
+        }
+        .bell-list-container {
+            max-height: 250px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .bell-item-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 12px;
+            border-radius: 10px;
+            background: var(--input-bg);
+            border: 1px solid var(--panel-border);
+            font-size: 0.82rem;
+        }
+        .bell-item-time {
+            font-weight: 700;
+            font-variant-numeric: tabular-nums;
+            color: var(--text-main);
+            font-size: 0.95rem;
+        }
+        .bell-item-type {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        .bell-item-delete {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            padding: 4px;
+            transition: color 0.2s;
+        }
+        .bell-item-delete:hover {
+            color: #ef4444;
+        }
+
+        /* Quote Widget */
+        .quote-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
+            padding: 0 10px;
+        }
+
+        .quote-text {
+            font-size: 0.95rem;
+            font-style: italic;
+            color: var(--text-main);
+            line-height: 1.5;
+            margin-bottom: 12px;
+            transition: opacity 0.15s ease, transform 0.15s ease;
+        }
+
+        .quote-author {
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: var(--accent-color);
+            letter-spacing: 0.3px;
+            transition: opacity 0.15s ease;
+        }
+
+        .quote-footer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding-top: 4px;
+        }
+
+        .quote-next-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 18px;
+            border-radius: 12px;
+            border: 1px solid var(--panel-border);
+            background: var(--input-bg);
+            color: var(--text-main);
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .quote-next-btn:hover {
+            color: var(--accent-color);
+            border-color: var(--accent-color);
+            box-shadow: 0 0 14px var(--accent-glow);
+            transform: translateY(-1px);
+        }
+
+        .quote-next-btn i {
+            font-size: 0.75rem;
+            transition: transform 0.2s ease;
+        }
+
+        .quote-next-btn:hover i {
+            transform: translateX(3px);
+        }
+
+        /* Footer Info */
+        footer {
+            width: 100%;
+            max-width: 1280px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            z-index: 10;
+        }
+
+        /* Modals & Overlays */
+        .modal-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(8px);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s ease;
+        }
+
+        .modal-backdrop.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-card {
+            width: 100%;
+            max-width: 480px;
+            background: #0d0f17;
+            border: 1px solid var(--panel-border);
+            border-radius: 24px;
+            padding: 28px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+            transform: translateY(10px);
+            transition: transform 0.25s ease;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-backdrop.active .modal-card {
+            transform: translateY(0);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            padding-bottom: 14px;
+            border-bottom: 1px solid var(--panel-border);
+        }
+
+        .modal-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .modal-title i {
+            color: var(--accent-color);
+        }
+
+        .modal-close {
+            background: var(--panel-bg);
+            border: 1px solid var(--panel-border);
+            width: 32px;
+            height: 32px;
+            border-radius: 10px;
+            color: var(--text-muted);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .modal-close:hover {
+            color: var(--text-main);
+            border-color: var(--accent-color);
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+
+        .form-input, .form-select {
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: 12px;
+            background: var(--input-bg);
+            border: 1px solid var(--panel-border);
+            color: var(--text-main);
+            font-size: 0.85rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .form-input:focus, .form-select:focus {
+            border-color: var(--accent-color);
+        }
+
+        .form-select option {
+            background: #0d0f17;
+            color: var(--text-main);
+        }
+
+        .color-picker-row {
+            display: flex;
+            gap: 10px;
+        }
+
+        .color-dot {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: transform 0.2s;
+        }
+
+        .color-dot:hover {
+            transform: scale(1.1);
+        }
+
+        .color-dot.selected {
+            border-color: #fff;
+            box-shadow: 0 0 10px currentColor;
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 14px;
+            border-radius: 14px;
+            background: var(--accent-color);
+            color: #fff;
+            border: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: background 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 15px var(--accent-glow);
+            margin-top: 10px;
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-hover);
+        }
+
+
+        .logo-glasses{font-size:1.35rem;filter:drop-shadow(0 0 8px var(--accent-glow))}
+        .developer-menu-card{margin-top:18px;padding:20px;border:1px solid var(--panel-border);border-radius:18px;background:linear-gradient(135deg,rgba(255,255,255,.05),rgba(255,255,255,.02));box-shadow:inset 0 1px 0 rgba(255,255,255,.04)}
+        .developer-menu-heading{font-size:.8rem;text-transform:uppercase;letter-spacing:.14em;color:var(--accent-color);font-weight:800;margin-bottom:14px}
+        .developer-name{display:block;color:var(--text-main);text-decoration:none;font-size:1.65rem;font-weight:900;letter-spacing:.02em;line-height:1.25;margin:5px 0;transition:.2s}
+        .developer-name:hover{color:var(--accent-color);transform:translateX(4px)}
+        .developer-github{display:block;margin-top:14px;padding-top:13px;border-top:1px solid var(--panel-border);color:var(--text-muted);text-decoration:none;font-size:.78rem;font-weight:700;word-break:break-all}.developer-github:hover{color:var(--accent-color)}
+        .developer-links{display:flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:flex-end}
+        .developer-links a{color:var(--text-muted);text-decoration:none;transition:.2s}.developer-links a:hover{color:var(--accent-color)}
+        .developer-links span{color:var(--text-main);font-weight:600}.developer-brand{font-weight:700;letter-spacing:.08em;color:var(--accent-color)}
+        @media(max-width:768px){footer{flex-direction:column;gap:10px}.developer-links{justify-content:center}}
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 999px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .guide-step {
+            background: var(--input-bg);
+            border: 1px solid var(--panel-border);
+            padding: 14px;
+            border-radius: 14px;
+            margin-bottom: 12px;
+        }
+
+        .guide-step h4 {
+            font-size: 0.85rem;
+            color: var(--text-main);
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .guide-step p {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        code {
+            background: rgba(0,0,0,0.4);
+            padding: 2px 6px;
+            border-radius: 6px;
+            color: var(--accent-color);
+            font-family: monospace;
+        }
+
+        pre {
+            background: rgba(0,0,0,0.6);
+            padding: 10px;
+            border-radius: 10px;
+            font-size: 0.7rem;
+            color: var(--accent-color);
+            overflow-x: auto;
+            margin-top: 6px;
+            font-family: monospace;
+        }
+
+        /* Header Logo & Brand */
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .header-logo-icon {
+            width: 34px;
+            height: 34px;
+            border-radius: 10px;
+            box-shadow: 0 0 16px var(--accent-glow);
+            object-fit: cover;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .header-logo-icon:hover {
+            transform: scale(1.08) rotate(-2deg);
+            box-shadow: 0 0 24px var(--accent-glow);
+        }
+
+        .header-brand-title {
+            font-size: 0.95rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            color: var(--text-main);
+            line-height: 1.1;
+        }
+
+        .header-date {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+        }
+
+        /* Weather Widget */
+        .weather-bar {
+            width: 100%;
+            padding: 18px 22px;
+            border-radius: 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            margin-bottom: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .weather-bar:hover {
+            border-color: var(--accent-color);
+            box-shadow: 0 6px 20px var(--accent-glow);
+        }
+
+        .weather-bar-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .weather-icon-symbol {
+            font-size: 2.2rem;
+            line-height: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            filter: drop-shadow(0 4px 10px rgba(0,0,0,0.3));
+        }
+
+        .weather-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .weather-temp {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--text-main);
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+        }
+
+        .weather-desc {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+        }
+
+        .weather-details {
+            display: flex;
+            gap: 14px;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        .weather-details span {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .weather-details i {
+            color: var(--accent-color);
+            font-size: 0.65rem;
+        }
+
+        .weather-bar-right {
+            display: flex;
+            align-items: center;
+        }
+
+        .weather-city-badge {
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            padding: 2px 8px;
+            border-radius: 8px;
+            background: rgba(99, 102, 241, 0.08);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            transition: all 0.2s ease;
+            width: fit-content;
+            margin-bottom: 2px;
+        }
+
+        .weather-city-badge:hover {
+            background: rgba(99, 102, 241, 0.18);
+            border-color: var(--accent-color);
+            transform: translateY(-1px);
+        }
+
+        .weather-city-badge i.fa-location-dot {
+            font-size: 0.78rem;
+        }
+
+        .weather-city-badge i.fa-pen {
+            font-size: 0.65rem;
+            opacity: 0.5;
+            transition: opacity 0.2s;
+            margin-left: 2px;
+        }
+
+        .weather-city-badge:hover i.fa-pen {
+            opacity: 1;
+        }
+
+        .btn-weather-action {
+            background: var(--input-bg);
+            border: 1px solid var(--panel-border);
+            color: var(--text-muted);
+            padding: 7px 14px;
+            border-radius: 12px;
+            font-size: 0.76rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-weather-action:hover {
+            color: var(--text-main);
+            border-color: var(--accent-color);
+            box-shadow: 0 0 12px var(--accent-glow);
+        }
+
+        .btn-weather-action i {
+            color: var(--accent-color);
+            font-size: 0.75rem;
+        }
+
+        /* Weather Forecast Expandable Container */
+        .weather-forecast-container {
+            margin-top: 14px;
+            width: 100%;
+            animation: fadeIn 0.25s ease-out;
+        }
+
+        .forecast-divider {
+            height: 1px;
+            background: var(--panel-border);
+            margin-bottom: 12px;
+        }
+
+        .forecast-title-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+            padding: 0 2px;
+        }
+
+        .forecast-title-row i {
+            color: var(--accent-color);
+            margin-right: 6px;
+        }
+
+        .forecast-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(72px, 1fr));
+            gap: 8px;
+            width: 100%;
+        }
+
+        .forecast-card {
+            background: var(--input-bg);
+            border: 1px solid var(--panel-border);
+            border-radius: 12px;
+            padding: 10px 6px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 4px;
+            transition: all 0.2s ease;
+        }
+
+        .forecast-card:hover {
+            border-color: var(--accent-color);
+            transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.04);
+            box-shadow: 0 4px 12px var(--accent-glow);
+        }
+
+        .forecast-card.today {
+            border-color: var(--accent-color);
+            background: rgba(99, 102, 241, 0.08);
+        }
+
+        .forecast-day {
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .forecast-icon {
+            font-size: 1.2rem;
+            margin: 2px 0;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .forecast-desc {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100%;
+            padding: 0 2px;
+        }
+
+        .forecast-temps {
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            font-size: 0.72rem;
+            font-weight: 700;
+        }
+
+        .forecast-max {
+            color: var(--text-main);
+        }
+
+        .forecast-min {
+            color: var(--text-muted);
+            font-weight: 400;
+            font-size: 0.68rem;
+        }
+
+        .weather-prompt {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 20px;
+            width: 100%;
+        }
+
+        .weather-prompt-icon {
+            font-size: 1.8rem;
+            opacity: 0.8;
+            color: var(--accent-color);
+        }
+
+        .weather-prompt-text {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .weather-prompt-text span:first-child {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .weather-prompt-text span:last-child {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+        }
+
+        .btn-location {
+            padding: 10px 20px;
+            border-radius: 12px;
+            background: var(--accent-color);
+            color: #fff;
+            border: none;
+            font-weight: 700;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 15px var(--accent-glow);
+            white-space: nowrap;
+        }
+
+        .btn-location:hover {
+            background: var(--accent-hover);
+            transform: translateY(-1px);
+        }
+
+        .btn-location:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        @media(max-width: 768px) {
+            .weather-bar {
+                padding: 14px;
+            }
+            .weather-bar-right {
+                align-items: flex-start;
+                width: 100%;
+                margin-top: 8px;
+            }
+            .forecast-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+            .weather-details {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+<body id="bodyRoot" data-accent="indigo">
+
+    <!-- Custom Background Ambient Backdrop -->
+    <div id="customBgBackdrop" class="custom-bg-backdrop"></div>
+
+    <!-- Ambient Glow Orbs -->
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+
+    <!-- Top Header -->
+    <header>
+        <div class="logo-area">
+            <p id="currentDateHeader" style="font-size: 0.82rem; color: var(--text-muted); font-weight: 500;">Yükleniyor...</p>
+        </div>
+        <div class="header-actions">
+            <button class="btn-icon" data-action="open-modal" data-target="developerModal">
+                <i class="fa-solid fa-code"></i>
+                <span>Geliştiriciler</span>
+            </button>
+            <button class="btn-icon" data-action="open-modal" data-target="settingsModal">
+                <i class="fa-solid fa-gear"></i>
+                <span>Kontrol Paneli</span>
+            </button>
+
+            <!-- Google Araçlar Menüsü (9 Noktalı Waffle - En Sağda) -->
+            <div class="google-apps-wrapper">
+                <button class="btn-icon btn-waffle" data-action="toggle-google-apps" id="btnGoogleApps" title="Google Uygulamaları" aria-label="Google Uygulamaları">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <circle cx="5" cy="5" r="2.2"></circle>
+                        <circle cx="12" cy="5" r="2.2"></circle>
+                        <circle cx="19" cy="5" r="2.2"></circle>
+                        <circle cx="5" cy="12" r="2.2"></circle>
+                        <circle cx="12" cy="12" r="2.2"></circle>
+                        <circle cx="19" cy="12" r="2.2"></circle>
+                        <circle cx="5" cy="19" r="2.2"></circle>
+                        <circle cx="12" cy="19" r="2.2"></circle>
+                        <circle cx="19" cy="19" r="2.2"></circle>
+                    </svg>
+                </button>
+                <div class="google-apps-dropdown glass-panel" id="googleAppsDropdown">
+                    <div class="google-apps-header">
+                        <span>Google Uygulamaları</span>
+                    </div>
+                    <div class="google-apps-grid">
+                        <a href="https://www.google.com" target="_blank" rel="noopener" class="google-app-item">
+                            <div class="google-app-icon-wrap">
+                                <img src="icons/google/search.svg" alt="Google Arama" width="32" height="32" loading="lazy">
+                            </div>
+                            <span class="google-app-name">Arama</span>
+                        </a>
+                        <a href="https://mail.google.com" target="_blank" rel="noopener" class="google-app-item">
+                            <div class="google-app-icon-wrap">
+                                <img src="icons/google/gmail.svg" alt="Gmail" width="32" height="32" loading="lazy">
+                            </div>
+                            <span class="google-app-name">Gmail</span>
+                        </a>
+                        <a href="https://www.youtube.com" target="_blank" rel="noopener" class="google-app-item">
+                            <div class="google-app-icon-wrap">
+                                <img src="icons/google/youtube.svg" alt="YouTube" width="32" height="32" loading="lazy">
+                            </div>
+                            <span class="google-app-name">YouTube</span>
+                        </a>
+                        <a href="https://maps.google.com" target="_blank" rel="noopener" class="google-app-item">
+                            <div class="google-app-icon-wrap">
+                                <img src="icons/google/maps.svg" alt="Haritalar" width="32" height="32" loading="lazy">
+                            </div>
+                            <span class="google-app-name">Haritalar</span>
+                        </a>
+                        <a href="https://drive.google.com" target="_blank" rel="noopener" class="google-app-item">
+                            <div class="google-app-icon-wrap">
+                                <img src="icons/google/drive.svg" alt="Drive" width="32" height="32" loading="lazy">
+                            </div>
+                            <span class="google-app-name">Drive</span>
+                        </a>
+                        <a href="https://calendar.google.com" target="_blank" rel="noopener" class="google-app-item">
+                            <div class="google-app-icon-wrap">
+                                <img src="icons/google/calendar.svg" alt="Takvim" width="32" height="32" loading="lazy">
+                            </div>
+                            <span class="google-app-name">Takvim</span>
+                        </a>
+                        <a href="https://photos.google.com" target="_blank" rel="noopener" class="google-app-item">
+                            <div class="google-app-icon-wrap">
+                                <img src="icons/google/photos.svg" alt="Fotoğraflar" width="32" height="32" loading="lazy">
+                            </div>
+                            <span class="google-app-name">Fotoğraflar</span>
+                        </a>
+                        <a href="https://translate.google.com" target="_blank" rel="noopener" class="google-app-item">
+                            <div class="google-app-icon-wrap">
+                                <img src="icons/google/translate.svg" alt="Çeviri" width="32" height="32" loading="lazy">
+                            </div>
+                            <span class="google-app-name">Çeviri</span>
+                        </a>
+                        <a href="https://meet.google.com" target="_blank" rel="noopener" class="google-app-item">
+                            <div class="google-app-icon-wrap">
+                                <img src="icons/google/meet.svg" alt="Meet" width="32" height="32" loading="lazy">
+                            </div>
+                            <span class="google-app-name">Meet</span>
+                        </a>
+                        <a href="https://docs.google.com" target="_blank" rel="noopener" class="google-app-item">
+                            <div class="google-app-icon-wrap">
+                                <img src="icons/google/docs.svg" alt="Dokümanlar" width="32" height="32" loading="lazy">
+                            </div>
+                            <span class="google-app-name">Dokümanlar</span>
+                        </a>
+                        <a href="https://sheets.google.com" target="_blank" rel="noopener" class="google-app-item">
+                            <div class="google-app-icon-wrap">
+                                <img src="icons/google/sheets.svg" alt="E-Tablolar" width="32" height="32" loading="lazy">
+                            </div>
+                            <span class="google-app-name">E-Tablolar</span>
+                        </a>
+                        <a href="https://news.google.com" target="_blank" rel="noopener" class="google-app-item">
+                            <div class="google-app-icon-wrap">
+                                <img src="icons/google/news.svg" alt="Haberler" width="32" height="32" loading="lazy">
+                            </div>
+                            <span class="google-app-name">Haberler</span>
+                        </a>
+                    </div>
+                    <div class="google-apps-footer">
+                        <a href="https://about.google/products/" target="_blank" rel="noopener" class="google-more-link">
+                            Diğer Google Ürünleri <i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 0.68rem; margin-left: 4px;"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Section -->
+    <main>
+        <!-- Clock & Greeting Widget -->
+        <div class="widget-clock" id="widgetClock">
+            <div class="time-display">
+                <span id="clockTime">00:00</span>
+                <span id="clockSec" class="time-sec">00</span>
+            </div>
+            <div class="greeting-display">
+                <span id="greetingText">İyi günler</span>, <span class="user-name-span" id="userNameDisplay" data-action="open-modal" data-target="settingsModal">Kullanıcı</span>
+                <div class="greeting-sub" id="greetingSub">Hız kesmeden hedeflerine odaklan.</div>
+            </div>
+        </div>
+
+        <!-- Search Bar Widget -->
+        <div class="widget-search" id="widgetSearch">
+            <form class="search-form" id="searchForm" action="https://www.google.com/search" method="GET">
+                <i class="fa-brands fa-google search-icon" id="searchIcon"></i>
+                <input type="text" name="q" id="searchInput" class="search-input" placeholder="Google'da ara veya URL yaz..." autocomplete="off">
+                <button type="submit" class="search-submit-btn" title="Ara">
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </form>
+            <div class="search-suggestions-dropdown" id="searchSuggestionsDropdown" role="listbox" aria-label="Arama Önerileri" style="display: none;"></div>
+        </div>
+
+        <!-- Weather & Quick Shortcuts Widget -->
+        <div class="widget-shortcuts" id="widgetShortcuts">
+            <!-- Weather Bar -->
+            <div class="weather-bar glass-panel" id="weatherBar">
+                <!-- İlk kurulum -->
+                <div class="weather-prompt" id="weatherPrompt">
+                    <span class="weather-prompt-icon"><i class="fa-solid fa-cloud-sun"></i></span>
+                    <div class="weather-prompt-text">
+                        <span>Hava durumunu görmek ister misin?</span>
+                        <span>Konumun otomatik algılanır</span>
+                    </div>
+                    <button class="btn-location" data-action="request-location" id="btnLocation">
+                        <i class="fa-solid fa-location-crosshairs"></i> Konum Doğrula
+                    </button>
+                </div>
+                <!-- Manuel şehir girişi (Değiştir'e basınca görünür) -->
+                <div id="weatherManualPrompt" style="display: none; width: 100%;">
+                    <div class="weather-prompt">
+                        <span class="weather-prompt-icon"><i class="fa-solid fa-pen-to-square"></i></span>
+                        <div class="weather-prompt-text">
+                            <span>Şehir veya ilçe adı yaz</span>
+                            <span>Konum yanlışsa manuel olarak düzelt</span>
+                        </div>
+                        <div style="display: flex; gap: 8px; align-items: center;">
+                            <input type="text" id="weatherCityInput" class="form-input" placeholder="Örn: Kahramanmaraş" style="width: 170px; padding: 10px 14px; font-size: 0.8rem;">
+                            <button class="btn-location" data-action="manual-weather-search" id="btnManualSearch">
+                                <i class="fa-solid fa-magnifying-glass"></i> Ara
+                            </button>
+                            <button type="button" class="btn-weather-action" data-action="cancel-weather-search" title="Vazgeç" style="padding: 10px 12px;">
+                                <i class="fa-solid fa-xmark"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Hava durumu verileri (konum alındıktan sonra görünür) -->
+                <div id="weatherData" style="display: none; width: 100%;">
+                    <div style="display: flex; align-items: center; justify-content: space-between; width: 100%; flex-wrap: wrap; gap: 12px;">
+                        <div class="weather-bar-left">
+                            <span class="weather-icon-symbol" id="weatherIcon"><i class="fa-solid fa-cloud-sun"></i></span>
+                            <div class="weather-info">
+                                <div style="display: flex; align-items: baseline; gap: 10px;">
+                                    <span class="weather-temp" id="weatherTemp">--°C</span>
+                                    <span class="weather-desc" id="weatherDesc" style="display: none;"></span>
+                                </div>
+                                <div class="weather-details">
+                                    <span><i class="fa-solid fa-temperature-half"></i> Hissedilen: <b id="weatherFeels">--</b>°C</span>
+                                    <span><i class="fa-solid fa-droplet"></i> Nem: %<b id="weatherHumidity">--</b></span>
+                                    <span><i class="fa-solid fa-wind"></i> Rüzgar: <b id="weatherWind">--</b> km/s</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="weather-bar-right">
+                            <button class="btn-weather-action" data-action="toggle-forecast" id="btnWeatherExpand" title="Haftalık Tahmin">
+                                <span>Haftalık</span>
+                                <i class="fa-solid fa-chevron-down" id="forecastChevron"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Genişletilince açılan Diğer Günler (Haftalık Tahmin) -->
+                    <div class="weather-forecast-container" id="weatherForecastContainer" style="display: none;">
+                        <div class="forecast-divider"></div>
+                        <div class="forecast-title-row">
+                            <span>Haftalık Tahmin</span>
+                        </div>
+                        <div class="forecast-grid" id="forecastGrid">
+                            <!-- Dynamic Day Cards -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="shortcuts-header">
+                <div class="shortcuts-title">
+                    <i class="fa-solid fa-bolt"></i> Hızlı Erişim
+                </div>
+                <button class="btn-add-shortcut" data-action="open-modal" data-target="shortcutModal">
+                    <i class="fa-solid fa-plus"></i> Kısayol Ekle
+                </button>
+            </div>
+            <div class="shortcuts-grid" id="shortcutsGrid">
+                <!-- Dynamic Shortcuts -->
+            </div>
+        </div>
+
+        <!-- Bottom Row Grid (Todo & Quote) -->
+        <div class="bottom-widgets">
+            <!-- 1. Odak & Zaman Merkezi (Varsayılan Genel Widget - Yazı Yazma Yok) -->
+            <div class="glass-panel widget-box" id="widgetFocus" style="display: flex;">
+                <div class="widget-box-header">
+                    <div class="widget-box-title">
+                        <i class="fa-solid fa-stopwatch"></i> Odak & Zaman Merkezi
+                    </div>
+                    <button class="mini-tool-btn" id="btnAmbientRain" data-action="toggle-ambient" title="Odak Yağmur Ambiyansı (Aç/Kapa)">
+                        <i class="fa-solid fa-cloud-rain"></i>
+                    </button>
+                </div>
+
+                <!-- Günün İlerlemesi -->
+                <div class="day-progress-container">
+                    <div class="day-progress-info">
+                        <span><i class="fa-regular fa-clock"></i> Günün İlerlemesi</span>
+                        <span id="dayProgressPercent" class="day-progress-val">%0</span>
+                    </div>
+                    <div class="progress-bar-bg">
+                        <div class="progress-bar-fill" id="dayProgressBar" style="width: 0%;"></div>
+                    </div>
+                    <div class="day-progress-meta" id="dayProgressMeta">Hesaplanıyor...</div>
+                </div>
+
+                <!-- Odak Sayacı / Pomodoro -->
+                <div class="focus-timer-section">
+                    <div class="focus-pills">
+                        <button class="focus-pill active" data-action="set-focus-time" data-mins="25">25 dk</button>
+                        <button class="focus-pill" data-action="set-focus-time" data-mins="50">50 dk</button>
+                        <button class="focus-pill" data-action="set-focus-time" data-mins="5">5 dk</button>
+                        <button class="focus-pill" data-action="set-focus-time" data-mins="15">15 dk</button>
+                    </div>
+                    <div class="focus-display-row">
+                        <span class="focus-time-display" id="focusTimeDisplay">25:00</span>
+                        <div class="focus-controls">
+                            <button class="focus-control-btn primary" id="btnFocusStart" data-action="toggle-focus" title="Başlat / Duraklat">
+                                <i class="fa-solid fa-play" id="focusPlayIcon"></i>
+                            </button>
+                            <button class="focus-control-btn secondary" data-action="reset-focus" title="Sıfırla">
+                                <i class="fa-solid fa-rotate-left"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. Zil & Süre Takipçisi (Ayarlardan Açıldığında Gösterilir) -->
+            <div class="glass-panel widget-box" id="widgetBell" style="display: none;">
+                <div class="widget-box-header">
+                    <div class="widget-box-title">
+                        <i class="fa-solid fa-bell"></i> Zil & Süre Takipçisi
+                    </div>
+                    <button class="mini-tool-btn" data-action="open-modal" data-target="bellModal" title="Zil Saatlerini Düzenle">
+                        <i class="fa-solid fa-sliders"></i>
+                    </button>
+                </div>
+
+                <div class="bell-content">
+                    <div class="bell-status-badge in" id="bellStatusBadge">
+                        <span class="status-dot"></span>
+                        <span id="bellStatusText">Zil Takipçisi Aktif</span>
+                    </div>
+
+                    <div class="bell-countdown-box">
+                        <div class="bell-countdown-time" id="bellCountdownTime">--:--</div>
+                        <div class="bell-next-info" id="bellNextInfo">Zil saatleri taranıyor...</div>
+                    </div>
+
+                    <div class="bell-progress-container">
+                        <div class="progress-bar-bg">
+                            <div class="progress-bar-fill" id="bellProgressBar" style="width: 0%;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bell-footer">
+                    <span id="bellNextMeta">Bir sonraki zil bekleniyor</span>
+                    <button class="bell-manage-btn" data-action="open-modal" data-target="bellModal">
+                        <i class="fa-solid fa-clock"></i> Saatleri Düzenle
+                    </button>
+                </div>
+            </div>
+
+            <!-- Daily Quote Widget -->
+            <div class="glass-panel widget-box" id="widgetQuote">
+                <div class="widget-box-header">
+                    <div class="widget-box-title">
+                        <i class="fa-solid fa-quote-left"></i> Günün İlhamı
+                    </div>
+                    <button class="modal-close" style="width:28px;height:28px;" data-action="refresh-quote" title="Yeni Söz Getir">
+                        <i class="fa-solid fa-rotate-right" style="font-size: 0.7rem;"></i>
+                    </button>
+                </div>
+                <div class="quote-content">
+                    <p class="quote-text" id="quoteText">"Zafer, 'zafer benimdir' diyebilenindir. Başarı ise, 'başaracağım' diye başlayarak sonunda 'başardım' diyebilenindir."</p>
+                    <div class="quote-author" id="quoteAuthor">— Mustafa Kemal Atatürk</div>
+                </div>
+                <div class="quote-footer">
+                    <button class="quote-next-btn" data-action="refresh-quote">
+                        <span>Yeni Söz</span> <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="developer-brand" id="developerBrandClick" data-action="secret-click" style="cursor: pointer; user-select: none;" title="ŞİGAL (Gizli Özellikler)">
+            <img src="icons/icon16.png" alt="S" style="width: 14px; height: 14px; border-radius: 4px; vertical-align: middle; margin-right: 4px;"> ŞİGAL
+        </div>
+        <div>Modern Yeni Sekme • Kişiselleştirilebilir deneyim</div>
+    </footer>
+
+    <!-- SETTINGS MODAL -->
+    <div class="modal-backdrop" id="settingsModal">
+        <div class="modal-card">
+            <div class="modal-header">
+                <div class="modal-title">
+                    <i class="fa-solid fa-sliders"></i> Özelleştirme Paneli
+                </div>
+                <button class="modal-close" data-action="close-modal" data-target="settingsModal">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Kullanıcı Adı</label>
+                <input type="text" id="settingUserName" class="form-input">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Saat Biçimi</label>
+                <select id="settingClockFormat" class="form-select">
+                    <option value="24">24 Saat (14:30)</option>
+                    <option value="12">12 Saat (02:30 ÖS)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Görünüm Teması</label>
+                <select id="settingTheme" class="form-select">
+                    <option value="dark">Karanlık Mod (Varsayılan)</option>
+                    <option value="light">Aydınlık Mod</option>
+                    <option value="system">Sistem Temasını Takip Et</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Arama Motoru</label>
+                <select id="settingSearchEngine" class="form-select">
+                    <option value="google">Google</option>
+                    <option value="duckduckgo">DuckDuckGo</option>
+                    <option value="bing">Bing</option>
+                    <option value="github">GitHub</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Tema Vurgu Rengi (Accent)</label>
+                <div class="color-picker-row">
+                    <div class="color-dot" style="background: #6366f1;" data-color="indigo" data-action="accent" data-color="indigo"></div>
+                    <div class="color-dot" style="background: #06b6d4;" data-color="cyan" data-action="accent" data-color="cyan"></div>
+                    <div class="color-dot" style="background: #10b981;" data-color="emerald" data-action="accent" data-color="emerald"></div>
+                    <div class="color-dot" style="background: #a855f7;" data-color="purple" data-action="accent" data-color="purple"></div>
+                    <div class="color-dot" style="background: #f59e0b;" data-color="amber" data-action="accent" data-color="amber"></div>
+                    <div class="color-dot" style="background: #ec4899;" data-color="pink" data-action="accent" data-color="pink"></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Özel Arka Plan Görsel URL</label>
+                <input type="text" id="settingCustomBg" class="form-input" placeholder="https://example.com/image.jpg">
+            </div>
+            <div class="form-group" style="padding-top: 10px; border-top: 1px solid var(--panel-border);">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <label class="form-label" style="margin-bottom: 2px;"><i class="fa-solid fa-bell"></i> Zil & Süre Takipçisi</label>
+                        <small style="color: var(--text-muted); font-size: 0.72rem; display: block;">Ders ve mola zillerine kalan süreyi gösterir (Varsayılan: Kapalı)</small>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="settingBellEnabled">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                <div id="bellConfigSection" style="margin-top: 10px; display: none;">
+                    <button type="button" class="btn-secondary" data-action="open-modal" data-target="bellModal">
+                        <i class="fa-solid fa-clock"></i> Zil Saatlerini Yönet & Düzenle
+                    </button>
+                </div>
+            </div>
+            <button class="btn-primary" data-action="save-settings">Değişiklikleri Kaydet</button>
+        </div>
+    </div>
+
+    <!-- ADD SHORTCUT MODAL -->
+    <div class="modal-backdrop" id="shortcutModal">
+        <div class="modal-card">
+            <div class="modal-header">
+                <div class="modal-title">
+                    <i class="fa-solid fa-link"></i> Yeni Kısayol Ekle
+                </div>
+                <button class="modal-close" data-action="close-modal" data-target="shortcutModal">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Site Adı</label>
+                <input type="text" id="shortTitle" class="form-input" placeholder="Örn: YouTube">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Web Sitesi URL</label>
+                <input type="text" id="shortUrl" class="form-input" placeholder="youtube.com veya https://youtube.com">
+                <small style="color: var(--text-muted); font-size: 0.7rem; margin-top: 6px; display: block;"><i class="fa-solid fa-circle-info" style="color: var(--accent-color);"></i> https:// yazmanıza gerek yok, otomatik eklenir. İkon siteden alınır.</small>
+            </div>
+            <button class="btn-primary" data-action="save-shortcut">Kısayolu Ekle</button>
+        </div>
+    </div>
+
+    <!-- BELL SCHEDULE MODAL -->
+    <div class="modal-backdrop" id="bellModal">
+        <div class="modal-card" style="max-width: 480px;">
+            <div class="modal-header">
+                <div class="modal-title">
+                    <i class="fa-solid fa-bell"></i> Zil Saatleri & Türleri
+                </div>
+                <button class="modal-close" data-action="close-modal" data-target="bellModal">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            
+            <p style="font-size: 0.76rem; color: var(--text-muted); margin-bottom: 12px; line-height: 1.4;">
+                Ders ve mola saatlerini girin. Sistem otomatik olarak bir sonraki zili tespit edip geri sayım yapar.
+            </p>
+
+            <!-- Hızlı Şablon Butonları -->
+            <div style="display: flex; gap: 8px; margin-bottom: 12px;">
+                <button type="button" class="btn-secondary" style="flex: 1; padding: 8px 12px; font-size: 0.75rem;" data-action="load-default-bells">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i> Standart Zil Şablonu Yükle
+                </button>
+                <button type="button" class="btn-secondary" style="padding: 8px 12px; font-size: 0.75rem; color: #ef4444; width: auto;" data-action="clear-all-bells" title="Tümünü Temizle">
+                    <i class="fa-solid fa-trash-can"></i>
+                </button>
+            </div>
+
+            <!-- Yeni Saat Ekleme Formu -->
+            <div class="bell-add-form">
+                <input type="time" id="newBellTime" class="form-input" style="flex: 1;" required>
+                <select id="newBellType" class="form-select" style="flex: 1.5;">
+                    <option value="in">İçeri (Ders Başlangıcı)</option>
+                    <option value="out">Dışarı (Teneffüs / Mola)</option>
+                    <option value="lunch">Öğle Arası</option>
+                    <option value="exit">Çıkış Zili (Bitiş)</option>
+                </select>
+                <button type="button" class="btn-primary" style="margin-top: 0; padding: 0 16px; white-space: nowrap;" data-action="add-bell-time">
+                    <i class="fa-solid fa-plus"></i> Ekle
+                </button>
+            </div>
+
+            <!-- Ekli Saatler Listesi -->
+            <div class="bell-list-container" id="bellListContainer">
+                <!-- Dynamic Bell Rows -->
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- DEVELOPER MODAL -->
+    <div class="modal-backdrop" id="developerModal">
+        <div class="modal-card">
+            <div class="modal-header">
+                <div class="modal-title">
+                    <i class="fa-solid fa-code"></i> Geliştiriciler
+                </div>
+                <button class="modal-close" data-action="close-modal" data-target="developerModal">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="developer-menu-card" style="margin-top: 0;">
+                <div class="developer-menu-heading" style="margin-bottom: 18px;"><i class="fa-solid fa-rocket"></i> ŞİGAL Ekibi</div>
+                <div style="display: flex; flex-direction: column; gap: 12px;">
+                    <div style="background: var(--input-bg); border: 1px solid var(--panel-border); border-radius: 14px; padding: 16px; display: flex; align-items: center; gap: 14px; transition: all 0.25s;">
+                        <div style="width: 44px; height: 44px; border-radius: 14px; background: linear-gradient(135deg, #E1306C, #F77737); display: flex; align-items: center; justify-content: center; font-size: 1.1rem; color: #fff;"><i class="fa-brands fa-instagram"></i></div>
+                        <div style="flex: 1;">
+                            <a class="developer-name" href="https://instagram.com/smakawei" target="_blank" rel="noopener" style="font-size: 1.1rem; margin: 0;">@smakawei</a>
+                            <span style="font-size: 0.72rem; color: var(--text-muted);">Kurucu Geliştirici</span>
+                        </div>
+                    </div>
+                    <div style="background: var(--input-bg); border: 1px solid var(--panel-border); border-radius: 14px; padding: 16px; display: flex; align-items: center; gap: 14px; transition: all 0.25s;">
+                        <div style="width: 44px; height: 44px; border-radius: 14px; background: linear-gradient(135deg, #E1306C, #F77737); display: flex; align-items: center; justify-content: center; font-size: 1.1rem; color: #fff;"><i class="fa-brands fa-instagram"></i></div>
+                        <div style="flex: 1;">
+                            <a class="developer-name" href="https://instagram.com/umutakll03" target="_blank" rel="noopener" style="font-size: 1.1rem; margin: 0;">@umutakll03</a>
+                            <span style="font-size: 0.72rem; color: var(--text-muted);">Kurucu Geliştirici</span>
+                        </div>
+                    </div>
+                    <div style="background: var(--input-bg); border: 1px solid var(--panel-border); border-radius: 14px; padding: 16px; display: flex; align-items: center; gap: 14px; transition: all 0.25s;">
+                        <div style="width: 44px; height: 44px; border-radius: 14px; background: linear-gradient(135deg, #333, #6e5494); display: flex; align-items: center; justify-content: center; font-size: 1.1rem; color: #fff;"><i class="fa-brands fa-github"></i></div>
+                        <div style="flex: 1;">
+                            <a class="developer-name" href="https://github.com/bedirhan3428" target="_blank" rel="noopener" style="font-size: 1.1rem; margin: 0;">bedirhan3428</a>
+                            <span style="font-size: 0.72rem; color: var(--text-muted);">GitHub Deposu</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="margin-top: 20px; padding: 16px; background: var(--input-bg); border: 1px solid var(--panel-border); border-radius: 14px; text-align: center;">
+                <img src="icons/icon128.png" alt="ŞİGAL" style="width: 56px; height: 56px; border-radius: 14px; margin-bottom: 8px; box-shadow: 0 4px 20px var(--accent-glow);">
+                <div style="font-size: 0.8rem; font-weight: 700; color: var(--accent-color); letter-spacing: 0.1em;">ŞİGAL EXTENSION</div>
+                <div style="font-size: 0.7rem; color: var(--text-muted); margin-top: 4px;">Modern Yeni Sekme Deneyimi</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CHEAT TERMINAL MODAL (Easter Egg Konsolu) -->
+    <div class="modal-backdrop" id="cheatTerminalModal">
+        <div class="modal-card" style="max-width: 500px; font-family: 'Consolas', 'Courier New', monospace; background: #070a0f; border: 1px solid #10b981; box-shadow: 0 0 35px rgba(16, 185, 129, 0.28);">
+            <div class="modal-header" style="border-bottom: 1px solid rgba(16, 185, 129, 0.25);">
+                <div class="modal-title" style="color: #10b981; font-family: monospace; font-size: 0.92rem; display: flex; align-items: center; gap: 8px;">
+                    <i class="fa-solid fa-terminal"></i> ŞİGAL GİZLİ TERMİNALİ [v2.1]
+                </div>
+                <button class="modal-close" data-action="close-modal" data-target="cheatTerminalModal" style="color: #10b981; border-color: rgba(16, 185, 129, 0.35); background: rgba(16, 185, 129, 0.1);">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div style="padding: 12px 0 6px 0; color: #34d399; font-size: 0.83rem; line-height: 1.6;">
+                <p style="color: #a7f3d0; margin-bottom: 12px;">&gt; KÖK ERİŞİMİ SAĞLANDI. Bir hile veya mod seçin:</p>
+                <div style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px;">
+                    <button class="terminal-btn" data-action="run-easter-egg" data-egg="breakout">
+                        <div><span class="cmd-num">[1]</span><span>Tuğla Kırma Atari Oyunu</span></div>
+                        <span class="cmd-tag">OYUN</span>
+                    </button>
+                    <button class="terminal-btn" data-action="run-easter-egg" data-egg="gravity">
+                        <div><span class="cmd-num">[2]</span><span>Google Gravity (Yerçekimi Fiziği)</span></div>
+                        <span class="cmd-tag">FİZİK</span>
+                    </button>
+                    <button class="terminal-btn" data-action="run-easter-egg" data-egg="yksm">
+                        <div><span class="cmd-num">[3]</span><span>YKSM Özel Video (Tam Ekran)</span></div>
+                        <span class="cmd-tag">VİDEO</span>
+                    </button>
+                    <button class="terminal-btn" data-action="run-easter-egg" data-egg="yksloser">
+                        <div><span class="cmd-num">[4]</span><span>YKSLoser (Tame Impala - 45s)</span></div>
+                        <span class="cmd-tag">MÜZİK</span>
+                    </button>
+                </div>
+                <div style="display: flex; gap: 8px; align-items: center; border-top: 1px solid rgba(16, 185, 129, 0.2); padding-top: 12px;">
+                    <span style="color: #10b981; font-weight: bold; font-size: 1rem;">$</span>
+                    <input type="text" id="terminalCmdInput" placeholder="Komut yazın (örn: breakout, gravity, yksm, yksloser)..." autocomplete="off" style="flex: 1; background: transparent; border: none; color: #6ee7b7; font-family: monospace; outline: none; font-size: 0.85rem;">
+                    <button class="btn-primary" data-action="submit-terminal-cmd" style="width: auto; margin-top: 0; padding: 7px 14px; font-size: 0.78rem; background: #10b981; color: #041f14; font-weight: bold;">Çalıştır</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- YKSM TAM EKRAN VİDEO OYNATICI -->
+    <div id="yksmVideoOverlay" class="yksm-video-overlay" role="dialog" aria-modal="true" aria-label="YKSM Video">
+        <div class="yksm-video-topbar" id="yksmVideoTopbar">
+            <div class="yksm-video-title">
+                <span class="yksm-video-badge" id="yksmVideoBadge">YKSM</span>
+                <span id="yksmVideoTitleText">Özel Video</span>
+            </div>
+            <div class="yksm-video-actions">
+                <a href="https://drive.google.com/file/d/1vKTfjPVt2AztFkWccvIsvyWmdisKHlPF/view" target="_blank" rel="noopener" class="yksm-video-btn" id="yksmVideoDriveLink" title="Google Drive'da Aç">
+                    <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                    <span>Drive'da Aç</span>
+                </a>
+                <button type="button" class="yksm-video-btn" id="btnYksmFullscreen" title="Tam Ekran Değiştir">
+                    <i class="fa-solid fa-expand" id="iconYksmFullscreen"></i>
+                    <span>Tam Ekran</span>
+                </button>
+                <button type="button" class="yksm-video-btn btn-close-yksm" id="btnCloseYksm" title="Kapat (ESC)">
+                    <i class="fa-solid fa-xmark"></i>
+                    <span>Kapat</span>
+                </button>
+            </div>
+        </div>
+        <div class="yksm-video-frame-container">
+            <iframe id="yksmVideoIframe" class="yksm-video-frame" src="" allow="autoplay; fullscreen; encrypted-media; picture-in-picture" allowfullscreen="true"></iframe>
+        </div>
+    </div>
+
+    <!-- RETRO TOAST (Başarım Rozeti) -->
+    <div id="retroToast" class="retro-toast">
+        <i class="fa-solid fa-gamepad" id="retroToastIcon"></i>
+        <span id="retroToastText">BAŞARIM AÇILDI!</span>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script src="script.js" defer></script>
+</body>
+</html>
