@@ -6,9 +6,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Google</title>
   <link rel="icon" type="image/x-icon" href="../favicon.ico">
-  <!-- Fonts -->
+  <!-- Fonts & CDN Preconnect -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
   <link
     href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@100..900&display=swap"
     rel="stylesheet">
@@ -48,7 +49,30 @@
     <div class="flex items-center gap-5 text-sm font-medium text-slate-700">
       <a href="developers" class="hover:text-blue-600 transition-colors">Geliştiriciler</a>
       <a href="https://mail.google.com" target="_blank" class="hover:text-blue-600 transition-colors">Gmail</a>
-      <a href="https://www.google.com/imghp" target="_blank" class="hover:text-blue-600 transition-colors">Görseller</a>
+      <!-- Google Araçları Menu -->
+      <div class="relative">
+        <button type="button" id="google-apps-trigger"
+          class="w-10 h-10 rounded-full flex items-center justify-center text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-colors cursor-pointer"
+          title="Google Araçları" aria-label="Google Araçları">
+          <svg viewBox="0 0 24 24" class="w-5 h-5 fill-current">
+            <circle cx="5" cy="5" r="2"/>
+            <circle cx="12" cy="5" r="2"/>
+            <circle cx="19" cy="5" r="2"/>
+            <circle cx="5" cy="12" r="2"/>
+            <circle cx="12" cy="12" r="2"/>
+            <circle cx="19" cy="12" r="2"/>
+            <circle cx="5" cy="19" r="2"/>
+            <circle cx="12" cy="19" r="2"/>
+            <circle cx="19" cy="19" r="2"/>
+          </svg>
+        </button>
+
+        <!-- Google Araçları Dropdown Menu -->
+        <div id="google-apps-menu"
+          class="absolute right-0 top-12 w-[328px] max-h-[440px] overflow-y-auto liquid-modal-card rounded-3xl p-3 shadow-2xl hidden z-50">
+          <div id="google-apps-grid" class="grid grid-cols-3 gap-1.5"></div>
+        </div>
+      </div>
     </div>
     <button id="settings-trigger"
       class="w-10 h-10 rounded-full liquid-glass flex items-center justify-center text-slate-600 hover:text-slate-900 transition-all cursor-pointer"

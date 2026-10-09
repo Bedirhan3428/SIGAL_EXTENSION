@@ -21,6 +21,22 @@
     }
   } catch (_) {}
 
+  // Handle navigation requests from inner web application so external services (Drive, etc.) open cleanly at top-level
+  window.addEventListener("message", (event) => {
+    if (event.data && event.data.type === "SIGAL_NAVIGATE" && event.data.url) {
+      const targetUrl = event.data.url;
+      if (event.data.newTab) {
+        window.open(targetUrl, "_blank", "noopener,noreferrer");
+      } else {
+        if (typeof chrome !== "undefined" && chrome.tabs && chrome.tabs.update) {
+          chrome.tabs.update({ url: targetUrl });
+        } else {
+          window.location.href = targetUrl;
+        }
+      }
+    }
+  });
+
   if (frame) {
     frame.addEventListener("load", () => {
       if (loader) loader.style.opacity = "0";

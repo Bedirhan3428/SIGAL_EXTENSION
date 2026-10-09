@@ -151,3 +151,19 @@ body::-webkit-scrollbar {
   scrollbar-width: none;
 }
 
+/* Google Apps Menu Scrollbar */
+#google-apps-menu::-webkit-scrollbar {
+  width: 6px;
+}
+#google-apps-menu::-webkit-scrollbar-track {
+  background: transparent;
+  margin: 10px 0;
+}
+#google-apps-menu::-webkit-scrollbar-thumb {
+  background: rgba(203, 213, 225, 0.7);
+  border-radius: 9999px;
+}
+#google-apps-menu::-webkit-scrollbar-thumb:hover {
+  background: rgba(148, 163, 184, 0.9);
+}
+
