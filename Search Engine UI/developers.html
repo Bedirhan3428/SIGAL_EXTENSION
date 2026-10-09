@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ŞİGAL • Developers</title>
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@100..900&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Google Sans Flex"', '"Google Sans"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    html, body {
+      width: 100%;
+      min-height: 100%;
+      margin: 0;
+      padding: 0;
+      background-color: #ffffff;
+      font-family: "Google Sans Flex", "Google Sans", -apple-system, BlinkMacSystemFont, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    .liquid-card {
+      background: #ffffff;
+      border: 1px solid #dfe1e5;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .liquid-card:hover {
+      border-color: #dadce0;
+      box-shadow: 0 6px 20px rgba(32, 33, 36, 0.09);
+      transform: translateY(-2px);
+    }
+    .social-pill {
+      background: #f8f9fa;
+      border: 1px solid #dfe1e5;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .social-pill:hover {
+      background: #ffffff;
+      border-color: #aecbfa;
+      box-shadow: 0 3px 12px rgba(26, 115, 232, 0.12);
+      transform: translateY(-2px);
+    }
+    .brand-footer-logo {
+      height: clamp(3.5rem, 12vw, 14rem);
+    }
+    .brand-footer-text {
+      font-size: clamp(2.4rem, 10vw, 12rem);
+    }
+  </style>
+</head>
+<body class="flex flex-col min-h-screen text-slate-800 select-none">
+
+  <!-- Top Navigation -->
+  <header class="w-full max-w-6xl mx-auto px-6 py-6 flex items-center justify-between z-20">
+    <a href="./" class="inline-flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-blue-600 transition-colors no-underline">
+      <svg viewBox="0 0 24 24" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5">
+        <polyline points="15 18 9 12 15 6" />
+      </svg>
+      <span>Ana Sayfa</span>
+    </a>
+    <div class="flex items-center gap-2.5">
+      <span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-blue-50 text-blue-700 border border-blue-200">v3.0.0</span>
+      <span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-slate-100 text-slate-600 border border-slate-200">Manifest V3</span>
+    </div>
+  </header>
+
+  <!-- Main Content Container -->
+  <main class="w-full max-w-6xl mx-auto px-6 pt-4 pb-20 flex-1 flex flex-col z-10">
+
+    <!-- Hero Title -->
+    <div class="mb-14 text-center sm:text-left">
+      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-100 text-slate-600 text-xs font-semibold mb-4">
+        <svg viewBox="0 0 24 24" class="w-3.5 h-3.5 text-blue-600" fill="currentColor">
+          <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+        </svg>
+        <span>Geliştirici & Proje Portalı</span>
+      </div>
+      <h1 class="text-4xl sm:text-5xl md:text-6xl font-black text-slate-900 tracking-tight leading-tight mb-4">
+        ŞİGAL Ekosistemi & Geliştiriciler
+      </h1>
+      <p class="text-base sm:text-lg text-slate-600 font-medium max-w-3xl leading-relaxed">
+        Modern web performansı, minimal tasarım felsefesi ve pratik günlük araçların buluştuğu yüksek verimli yeni sekme deneyimi.
+      </p>
+    </div>
+
+    <!-- Long Detailed Documentation & Explanation Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-7 mb-16">
+      
+      <!-- Card 1: Vizyon & Amaç -->
+      <div class="liquid-card rounded-3xl p-7 flex flex-col gap-3.5">
+        <div class="w-11 h-11 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center font-bold">
+          <svg viewBox="0 0 24 24" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="2" y1="12" x2="22" y2="12"/>
+            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+          </svg>
+        </div>
+        <h2 class="text-xl font-bold text-slate-900 tracking-tight">Proje Vizyonu ve Çıkış Noktası</h2>
+        <p class="text-sm text-slate-600 leading-relaxed font-normal">
+          ŞİGAL Extension, klasik tarayıcı başlangıç sayfalarındaki aşırı yavaşlık, dikkat dağıtıcı reklamlar, izleme kodları ve gereksiz hantal eklenti yüklerini tamamen ortadan kaldırmak için sıfırdan tasarlandı. Kullanıcıya her yeni sekme açtığında sadece saliseler içinde yüklenen, temiz, minimalist ve doğrudan işine odaklanabileceği profesyonel bir çalışma alanı sunar.
+        </p>
+        <p class="text-sm text-slate-600 leading-relaxed font-normal">
+          Gereksiz hiçbir arka plan servisi çalıştırmayan bu ekosistem, hem sistem kaynaklarını (CPU ve RAM) korur hem de günlük iş akışında ihtiyaç duyulan tüm temel araçları (akıllı arama, ders takip sayacı, kişiselleştirilmiş kısayollar ve dijital saat) kusursuz bir uyum içinde bir araya getirir.
+        </p>
+      </div>
+
+      <!-- Card 2: Mimari & Manifest V3 -->
+      <div class="liquid-card rounded-3xl p-7 flex flex-col gap-3.5">
+        <div class="w-11 h-11 rounded-2xl bg-cyan-50 text-cyan-600 flex items-center justify-center font-bold">
+          <svg viewBox="0 0 24 24" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+            <line x1="8" y1="21" x2="16" y2="21"/>
+            <line x1="12" y1="17" x2="12" y2="21"/>
+          </svg>
+        </div>
+        <h2 class="text-xl font-bold text-slate-900 tracking-tight">Manifest V3 & Ultra-Lightweight Web Shell</h2>
+        <p class="text-sm text-slate-600 leading-relaxed font-normal">
+          Chrome Manifest V3 uyumlu hafif yerel kabuk (Web Shell) mimarisi sayesinde, eklenti paketi yalnızca 3 kilobayt boyutundadır. Tarayıcının yeni sekme sayfasını güvenli bir iframe katmanıyla bulut tabanlı yüksek hızlı sunucuya bağlar.
+        </p>
+        <p class="text-sm text-slate-600 leading-relaxed font-normal">
+          Bu mimari sayesindeki en büyük avantaj; sisteme herhangi bir güncelleme, yeni özellik veya arayüz iyileştirmesi geldiğinde kullanıcının Chrome Mağazası'ndan güncelleme beklemesine veya tarayıcıyı yeniden başlatmasına gerek kalmamasıdır. Her şey sunucu tarafında anında optimize edilir ve tarayıcıya 0 ms gecikmeyle yansır.
+        </p>
+      </div>
+
+      <!-- Card 3: Yapay Zeka & Canlı Geri Sayım -->
+      <div class="liquid-card rounded-3xl p-7 flex flex-col gap-3.5">
+        <div class="w-11 h-11 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold">
+          <svg viewBox="0 0 24 24" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+          </svg>
+        </div>
+        <h2 class="text-xl font-bold text-slate-900 tracking-tight">Google AI Modu & Gelişmiş Arama</h2>
+        <p class="text-sm text-slate-600 leading-relaxed font-normal">
+          Arama motoru, geleneksel Google arama algoritmasının yanı sıra Google'ın resmi yapay zeka modu (<span class="font-mono text-xs bg-slate-100 px-1.5 py-0.5 rounded text-blue-700">udm=50</span>) ve Google Gemini yetenekleriyle güçlendirilmiştir. Arama kutusundayken kullanıcılar sorgularını yazıp <span class="font-mono text-xs bg-slate-100 px-1.5 py-0.5 rounded text-slate-700">Enter</span> tuşuna basarak klasik Google araması yapabilir ya da <span class="font-mono text-xs bg-slate-100 px-1.5 py-0.5 rounded text-indigo-700">Ctrl + Enter</span> kısayolunu kullanarak doğrudan yapay zekaya yönlendirilebilir.
+        </p>
+        <p class="text-sm text-slate-600 leading-relaxed font-normal">
+          Ayrıca kullanıcılar ayarlar çekmecesinden diledikleri zaman varsayılan yapay zeka motorunu Google Gemini, Perplexity, ChatGPT veya Claude olarak değiştirebilirler.
+        </p>
+      </div>
+
+      <!-- Card 4: Akıllı Ders Takip Motoru -->
+      <div class="liquid-card rounded-3xl p-7 flex flex-col gap-3.5">
+        <div class="w-11 h-11 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold">
+          <svg viewBox="0 0 24 24" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <polyline points="12 6 12 12 16 14"/>
+          </svg>
+        </div>
+        <h2 class="text-xl font-bold text-slate-900 tracking-tight">Akıllı Canlı Ders & Teneffüs Motoru</h2>
+        <p class="text-sm text-slate-600 leading-relaxed font-normal">
+          Kısayolların hemen altında yer alan akıllı ders takip kartı; Pazartesi–Perşembe günleri (12:45–17:40) ve Cuma günlerine özel saatleri (13:05–17:40) saniyesi saniyesine takip eder. Geleneksel karmaşık ve kalabalık program tablolarının aksine, kullanıcıya o an yalnızca gereken bilgiyi sunar.
+        </p>
+        <p class="text-sm text-slate-600 leading-relaxed font-normal">
+          O an aktif bir derste mi yoksa teneffüste mi olunduğunu dinamik olarak belirler, bir sonraki dersin veya teneffüsün başlamasına kalan süreyi büyük yazı tipiyle geri sayar ve akıcı bir ilerleme çubuğuyla görselleştirir. Ders saatleri bittiğinde ise arayüz kendini otomatik olarak dinlenme moduna alır.
+        </p>
+      </div>
+
+      <!-- Card 5: Minimalizm & Gizlilik -->
+      <div class="liquid-card rounded-3xl p-7 flex flex-col gap-3.5">
+        <div class="w-11 h-11 rounded-2xl bg-teal-50 text-teal-600 flex items-center justify-center font-bold">
+          <svg viewBox="0 0 24 24" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+          </svg>
+        </div>
+        <h2 class="text-xl font-bold text-slate-900 tracking-tight">Gizlilik ve Veri Güvenliği (Privacy-First)</h2>
+        <p class="text-sm text-slate-600 leading-relaxed font-normal">
+          ŞİGAL, kullanıcı gizliliğini temel ilke kabul eder. Eklediğiniz kısayollar, özel arama geçmişiniz, ders programı tercihleri veya ayarlarınız hiçbir harici analitik sunucusuna gönderilmez, izlenmez veya üçüncü şahıslarla paylaşılmaz.
+        </p>
+        <p class="text-sm text-slate-600 leading-relaxed font-normal">
+          Tüm veriler tamamen tarayıcınızın kendi cihazındaki yerel depolama biriminde (<span class="font-mono text-xs bg-slate-100 px-1.5 py-0.5 rounded text-slate-700">localStorage</span>) şifresiz ve izole biçimde tutulur. Tarayıcınızı temizlediğinizde verileriniz de güvende kalır.
+        </p>
+      </div>
+
+      <!-- Card 6: Tasarım Dili -->
+      <div class="liquid-card rounded-3xl p-7 flex flex-col gap-3.5">
+        <div class="w-11 h-11 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center font-bold">
+          <svg viewBox="0 0 24 24" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/>
+          </svg>
+        </div>
+        <h2 class="text-xl font-bold text-slate-900 tracking-tight">Liquid Glass & Google Sans Flex</h2>
+        <p class="text-sm text-slate-600 leading-relaxed font-normal">
+          Arayüz, Google'ın Material 3 tasarım felsefesi ve modern sıvı cam (Liquid Glass / Frosted Glass) estetiği üzerine kurulmuştur. Yüksek çözünürlüklü ve dinamik ağırlıklara sahip Google Sans Flex yazı tipi ailesi kullanılarak dengeli, ferah ve gözü yormayan bir tipografi elde edilmiştir.
+        </p>
+        <p class="text-sm text-slate-600 leading-relaxed font-normal">
+          Sayfanın arka planına zarifçe yerleştirilen soluk SIGAL filigranı ve mikro-animasyonlar, arayüze sadece statik bir web sitesi değil, yaşayan modern bir işletim sistemi hissi kazandırır.
+        </p>
+      </div>
+
+    </div>
+
+    <!-- Developers Section (Sosyal Bağlantılar & Ekip) -->
+    <div class="mb-16">
+      <div class="flex items-center justify-between mb-6">
+        <div>
+          <h2 class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">Geliştiriciler & İletişim</h2>
+          <p class="text-sm text-slate-500 font-medium mt-1">Projeye katkıda bulunan geliştiriciler ve sosyal medya profilleri</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-5">
+        
+        <!-- Bedirhan (GitHub) -->
+        <a href="https://github.com/Bedirhan3428" target="_blank" rel="noopener noreferrer"
+           class="social-pill rounded-2xl p-5 flex items-center gap-4 no-underline group cursor-pointer">
+          <div class="w-12 h-12 rounded-xl bg-slate-900 text-white flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform shadow-xs">
+            <svg viewBox="0 0 24 24" class="w-6 h-6" fill="currentColor">
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+            </svg>
+          </div>
+          <div class="flex flex-col min-w-0">
+            <span class="text-sm font-bold text-slate-900 truncate group-hover:text-blue-600 transition-colors">Bedirhan</span>
+            <span class="text-xs text-slate-500 font-medium">@Bedirhan3428</span>
+            <span class="text-[11px] text-blue-600 font-semibold mt-0.5">GitHub Profili →</span>
+          </div>
+        </a>
+
+        <!-- smakawei (Instagram) -->
+        <a href="https://instagram.com/smakawei" target="_blank" rel="noopener noreferrer"
+           class="social-pill rounded-2xl p-5 flex items-center gap-4 no-underline group cursor-pointer">
+          <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-amber-500 via-rose-500 to-purple-600 text-white flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform shadow-xs">
+            <svg viewBox="0 0 24 24" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+            </svg>
+          </div>
+          <div class="flex flex-col min-w-0">
+            <span class="text-sm font-bold text-slate-900 truncate group-hover:text-pink-600 transition-colors">smakawei</span>
+            <span class="text-xs text-slate-500 font-medium">@smakawei</span>
+            <span class="text-[11px] text-pink-600 font-semibold mt-0.5">Instagram →</span>
+          </div>
+        </a>
+
+        <!-- umutakll (Instagram) -->
+        <a href="https://instagram.com/umutakll" target="_blank" rel="noopener noreferrer"
+           class="social-pill rounded-2xl p-5 flex items-center gap-4 no-underline group cursor-pointer">
+          <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-amber-500 via-rose-500 to-purple-600 text-white flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform shadow-xs">
+            <svg viewBox="0 0 24 24" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+            </svg>
+          </div>
+          <div class="flex flex-col min-w-0">
+            <span class="text-sm font-bold text-slate-900 truncate group-hover:text-pink-600 transition-colors">umutakll</span>
+            <span class="text-xs text-slate-500 font-medium">@umutakll</span>
+            <span class="text-[11px] text-pink-600 font-semibold mt-0.5">Instagram →</span>
+          </div>
+        </a>
+
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Grand Bottom Brand Footer Spanning Screen (Logo + Extensions) -->
+  <footer class="w-full border-t border-slate-200/80 bg-slate-50/70 py-8 sm:py-12 md:py-14 px-[10px] mt-auto overflow-hidden">
+    <div class="w-full flex flex-col items-center justify-center text-center">
+      
+      <!-- Logo and "Extensions" Title (Full span, left-to-right with ~10px margins) -->
+      <div id="brand-footer-row" class="w-full flex items-center justify-center gap-2 sm:gap-4 md:gap-6 select-none" style="max-width: 100vw;">
+        <img id="brand-footer-logo" src="logo.svg" alt="ŞİGAL Logo" class="brand-footer-logo w-auto object-contain flex-shrink-0 drop-shadow-sm">
+        <span id="brand-footer-text" class="brand-footer-text font-black text-slate-900 tracking-tighter leading-none font-sans whitespace-nowrap">Extensions</span>
+      </div>
+
+      <!-- Footer Subtitle / Info -->
+      <div class="flex flex-wrap items-center justify-center gap-3 text-xs sm:text-sm text-slate-400 font-medium mt-6 sm:mt-8">
+        <span>ŞİGAL Extension Project</span>
+        <span>&bull;</span>
+        <span>Açık Kaynak Kodlu &bull; Güvenli & Hızlı</span>
+        <span>&bull;</span>
+        <span>2026</span>
+      </div>
+
+    </div>
+  </footer>
+
+  <script>
+    function fitBrandFooter() {
+      const container = document.getElementById('brand-footer-row');
+      const text = document.getElementById('brand-footer-text');
+      const logo = document.getElementById('brand-footer-logo');
+      if (!container || !text || !logo) return;
+
+      const availableWidth = container.clientWidth - 8;
+      
+      text.style.fontSize = '100px';
+      logo.style.height = '115px';
+      
+      const textWidth = text.getBoundingClientRect().width;
+      const logoWidth = logo.getBoundingClientRect().width;
+      const gap = parseFloat(window.getComputedStyle(container).columnGap) || 16;
+      
+      const totalWidthAt100 = textWidth + logoWidth + gap;
+      if (totalWidthAt100 > 0) {
+        const scale = availableWidth / totalWidthAt100;
+        const finalFontSize = Math.floor(100 * scale);
+        text.style.fontSize = finalFontSize + 'px';
+        logo.style.height = Math.floor(115 * scale) + 'px';
+      }
+    }
+
+    window.addEventListener('resize', fitBrandFooter);
+    window.addEventListener('DOMContentLoaded', fitBrandFooter);
+    if (document.fonts) {
+      document.fonts.ready.then(fitBrandFooter);
+    }
+  </script>
+</body>
+</html>
