@@ -20,6 +20,7 @@
       }
     }
   </script>
+  <link rel="stylesheet" href="style.css">
   <style>
     html, body {
       width: 100%;
@@ -77,7 +78,12 @@
     }
   </style>
 </head>
-<body class="flex flex-col min-h-screen text-slate-800 select-none">
+<body class="flex flex-col min-h-screen text-slate-800 select-none relative">
+
+  <!-- Background Watermark (SIGAL) -->
+  <div class="bg-watermark" aria-hidden="true">
+    <span class="bg-watermark-text">SIGAL</span>
+  </div>
 
   <!-- Top Navigation -->
   <header class="w-full max-w-6xl mx-auto px-6 py-6 flex items-center justify-between z-20">
@@ -105,7 +111,7 @@
         <span>Geliştirici & Proje Portalı</span>
       </div>
       <h1 class="text-4xl sm:text-5xl md:text-6xl font-black text-slate-900 tracking-tight leading-tight mb-4">
-        ŞİGAL Ekosistemi & Geliştiriciler
+        <span class="sigal-beam-text">ŞİGAL</span> Ekosistemi & Geliştiriciler
       </h1>
       <p class="text-base sm:text-lg text-slate-600 font-medium max-w-3xl leading-relaxed">
         Modern web performansı, minimal tasarım felsefesi ve pratik günlük araçların buluştuğu yüksek verimli yeni sekme deneyimi.
@@ -291,7 +297,7 @@
       <!-- Logo and "Extensions" Title (Full span, left-to-right with ~10px margins) -->
       <div id="brand-footer-row" class="w-full flex items-center justify-center select-none" style="gap: 16px;">
         <img id="brand-footer-logo" src="logo.svg" alt="ŞİGAL Logo" class="object-contain flex-shrink-0 drop-shadow-sm">
-        <span id="brand-footer-text" class="font-black text-slate-900 tracking-tighter leading-none font-sans whitespace-nowrap">Extensions</span>
+        <span id="brand-footer-text" class="font-black text-slate-900 tracking-tighter leading-none font-sans whitespace-nowrap sigal-beam-text">Extensions</span>
       </div>
 
       <!-- Footer Subtitle / Info -->
