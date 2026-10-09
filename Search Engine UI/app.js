@@ -105,10 +105,12 @@
 
   // Schedule Elements
   const scheduleCard = document.getElementById('schedule-card');
-  const lessonsGrid = document.getElementById('lessons-grid');
-  const tabWeek = document.getElementById('tab-week');
-  const tabFri = document.getElementById('tab-fri');
-  const scheduleDayBadge = document.getElementById('schedule-day-badge');
+  const statusIndicator = document.getElementById('status-indicator');
+  const lessonStatusTitle = document.getElementById('lesson-status-title');
+  const lessonStatusSub = document.getElementById('lesson-status-sub');
+  const lessonCountdown = document.getElementById('lesson-countdown');
+  const lessonCountdownLabel = document.getElementById('lesson-countdown-label');
+  const lessonProgressBar = document.getElementById('lesson-progress-bar');
 
   const shortcutModal = document.getElementById('shortcut-modal');
   const shortcutModalClose = document.getElementById('shortcut-modal-close');
@@ -393,82 +395,120 @@
     }
   });
 
-  // Schedule Controller
-  const todayDayOfWeek = new Date().getDay();
-  let activeScheduleTab = (todayDayOfWeek === 5) ? 'fri' : 'week';
-
-  function parseMinutes(timeStr) {
+  // Live Lesson / Break Countdown Controller
+  function toSeconds(timeStr) {
     const [h, m] = timeStr.split(':').map(Number);
-    return h * 60 + m;
+    return h * 3600 + m * 60;
   }
 
-  function renderSchedule() {
-    if (!lessonsGrid) return;
-    const lessons = SCHEDULE_DATA[activeScheduleTab] || SCHEDULE_DATA.week;
+  function formatCountdown(sec) {
+    if (sec < 0) sec = 0;
+    const h = Math.floor(sec / 3600);
+    const m = Math.floor((sec % 3600) / 60);
+    const s = sec % 60;
+    if (h > 0) {
+      return `${h}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+    }
+    return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+  }
+
+  function updateLessonCountdown() {
+    if (!scheduleCard || !lessonStatusTitle) return;
+
     const now = new Date();
-    const currentMinutes = now.getHours() * 60 + now.getMinutes();
-    const isTodayTab = (activeScheduleTab === 'fri' && todayDayOfWeek === 5) ||
-                       (activeScheduleTab === 'week' && todayDayOfWeek >= 1 && todayDayOfWeek <= 4);
+    const day = now.getDay(); // 0: Sun, 1: Mon, ..., 5: Fri, 6: Sat
+    const nowSec = now.getHours() * 3600 + now.getMinutes() * 60 + now.getSeconds();
 
-    if (scheduleDayBadge) {
-      if (isTodayTab) {
-        scheduleDayBadge.textContent = 'Bugün';
-        scheduleDayBadge.className = 'text-[10px] font-semibold px-2 py-0.5 rounded-full bg-blue-50 text-blue-600 border border-blue-100';
-      } else {
-        scheduleDayBadge.textContent = activeScheduleTab === 'fri' ? 'Cuma' : 'Pzt - Per';
-        scheduleDayBadge.className = 'text-[10px] font-medium px-2 py-0.5 rounded-full bg-slate-100 text-slate-500 border border-slate-200';
-      }
+    // Weekend (Cumartesi / Pazar)
+    if (day === 0 || day === 6) {
+      lessonStatusTitle.textContent = 'Hafta Sonu';
+      lessonStatusSub.textContent = 'Pazartesi 12:45\'te dersler başlıyor';
+      lessonCountdown.textContent = '--:--';
+      lessonCountdownLabel.textContent = 'Tatil';
+      statusIndicator.className = 'w-3 h-3 rounded-full bg-slate-400 ring-4 ring-slate-100 flex-shrink-0';
+      lessonProgressBar.className = 'h-full bg-slate-300 rounded-full';
+      lessonProgressBar.style.width = '0%';
+      return;
     }
 
-    if (tabWeek && tabFri) {
-      if (activeScheduleTab === 'week') {
-        tabWeek.className = 'px-2.5 py-1 rounded-lg transition-all cursor-pointer bg-white text-slate-800 shadow-xs font-semibold';
-        tabFri.className = 'px-2.5 py-1 rounded-lg transition-all cursor-pointer text-slate-500 hover:text-slate-800 font-medium';
-      } else {
-        tabFri.className = 'px-2.5 py-1 rounded-lg transition-all cursor-pointer bg-white text-slate-800 shadow-xs font-semibold';
-        tabWeek.className = 'px-2.5 py-1 rounded-lg transition-all cursor-pointer text-slate-500 hover:text-slate-800 font-medium';
-      }
+    const schedule = (day === 5) ? SCHEDULE_DATA.fri : SCHEDULE_DATA.week;
+    const firstLesson = schedule[0];
+    const lastLesson = schedule[schedule.length - 1];
+
+    const firstStartSec = toSeconds(firstLesson.start);
+    const lastEndSec = toSeconds(lastLesson.end);
+
+    // Before school starts today
+    if (nowSec < firstStartSec) {
+      const remainingSec = firstStartSec - nowSec;
+      lessonStatusTitle.textContent = 'Dersler Başlamadı';
+      lessonStatusSub.textContent = `1. Ders: ${firstLesson.start} - ${firstLesson.end}`;
+      lessonCountdown.textContent = formatCountdown(remainingSec);
+      lessonCountdownLabel.textContent = '1. derse kaldı';
+      statusIndicator.className = 'w-3 h-3 rounded-full bg-amber-500 animate-pulse ring-4 ring-amber-100 flex-shrink-0';
+      lessonProgressBar.className = 'h-full bg-amber-500 rounded-full';
+      lessonProgressBar.style.width = '0%';
+      return;
     }
 
-    lessonsGrid.innerHTML = '';
-    lessons.forEach(lesson => {
-      const startMin = parseMinutes(lesson.start);
-      const endMin = parseMinutes(lesson.end);
-      const isActive = isTodayTab && (currentMinutes >= startMin && currentMinutes <= endMin);
+    // After all lessons end today
+    if (nowSec >= lastEndSec) {
+      lessonStatusTitle.textContent = 'Dersler Bitti';
+      lessonStatusSub.textContent = (day === 4) ? 'Yarın ilk ders: 13:05' : (day === 5 ? 'Pazartesi ilk ders: 12:45' : 'Yarın ilk ders: 12:45');
+      lessonCountdown.textContent = '--:--';
+      lessonCountdownLabel.textContent = 'İyi Dinlenmeler';
+      statusIndicator.className = 'w-3 h-3 rounded-full bg-slate-400 ring-4 ring-slate-100 flex-shrink-0';
+      lessonProgressBar.className = 'h-full bg-slate-400 rounded-full';
+      lessonProgressBar.style.width = '100%';
+      return;
+    }
 
-      const tile = document.createElement('div');
-      tile.className = `lesson-tile flex flex-col items-center justify-center py-2 px-1 rounded-xl text-center select-none ${isActive ? 'active-lesson' : ''}`;
+    // Check lessons and breaks
+    for (let i = 0; i < schedule.length; i++) {
+      const lesson = schedule[i];
+      const startSec = toSeconds(lesson.start);
+      const endSec = toSeconds(lesson.end);
 
-      if (isActive) {
-        tile.innerHTML = `
-          <div class="flex items-center gap-1">
-            <span class="w-1.5 h-1.5 rounded-full bg-blue-600 animate-pulse"></span>
-            <span class="text-xs font-semibold text-blue-800">${lesson.num}. Ders</span>
-          </div>
-          <span class="text-[11px] font-semibold text-blue-600 mt-0.5">${lesson.start} - ${lesson.end}</span>
-        `;
-      } else {
-        tile.innerHTML = `
-          <span class="text-xs font-semibold text-slate-700">${lesson.num}. Ders</span>
-          <span class="text-[11px] font-medium text-slate-500 mt-0.5">${lesson.start} - ${lesson.end}</span>
-        `;
+      // Currently in Lesson i
+      if (nowSec >= startSec && nowSec < endSec) {
+        const remainingSec = endSec - nowSec;
+        const totalDuration = endSec - startSec;
+        const elapsed = nowSec - startSec;
+        const pct = Math.min(100, Math.max(0, (elapsed / totalDuration) * 100));
+
+        lessonStatusTitle.textContent = `${lesson.num}. Ders`;
+        lessonStatusSub.textContent = `${lesson.start} - ${lesson.end}`;
+        lessonCountdown.textContent = formatCountdown(remainingSec);
+        lessonCountdownLabel.textContent = 'teneffüse kaldı';
+        statusIndicator.className = 'w-3 h-3 rounded-full bg-blue-600 animate-pulse ring-4 ring-blue-100 flex-shrink-0';
+        lessonProgressBar.className = 'h-full bg-blue-600 rounded-full transition-all duration-1000 ease-linear';
+        lessonProgressBar.style.width = `${pct}%`;
+        return;
       }
-      lessonsGrid.appendChild(tile);
-    });
-  }
 
-  if (tabWeek) {
-    tabWeek.addEventListener('click', () => {
-      activeScheduleTab = 'week';
-      renderSchedule();
-    });
-  }
+      // Currently in Break between Lesson i and Lesson i+1
+      if (i < schedule.length - 1) {
+        const nextLesson = schedule[i + 1];
+        const breakStartSec = endSec;
+        const breakEndSec = toSeconds(nextLesson.start);
 
-  if (tabFri) {
-    tabFri.addEventListener('click', () => {
-      activeScheduleTab = 'fri';
-      renderSchedule();
-    });
+        if (nowSec >= breakStartSec && nowSec < breakEndSec) {
+          const remainingSec = breakEndSec - nowSec;
+          const totalBreak = breakEndSec - breakStartSec;
+          const elapsed = nowSec - breakStartSec;
+          const pct = Math.min(100, Math.max(0, (elapsed / totalBreak) * 100));
+
+          lessonStatusTitle.textContent = 'Teneffüs';
+          lessonStatusSub.textContent = `Sıradaki: ${nextLesson.num}. Ders (${nextLesson.start})`;
+          lessonCountdown.textContent = formatCountdown(remainingSec);
+          lessonCountdownLabel.textContent = `${nextLesson.num}. derse kaldı`;
+          statusIndicator.className = 'w-3 h-3 rounded-full bg-amber-500 animate-pulse ring-4 ring-amber-100 flex-shrink-0';
+          lessonProgressBar.className = 'h-full bg-amber-500 rounded-full transition-all duration-1000 ease-linear';
+          lessonProgressBar.style.width = `${pct}%`;
+          return;
+        }
+      }
+    }
   }
 
   function escapeHtml(str) {
@@ -480,11 +520,11 @@
   // Initialize
   applySettings();
   renderShortcuts();
-  renderSchedule();
+  updateLessonCountdown();
   updateClock();
   setInterval(() => {
     updateClock();
-    renderSchedule();
+    updateLessonCountdown();
   }, 1000);
 
 })();
