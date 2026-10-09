@@ -1,12 +1,8 @@
 // Background Service Worker for ŞİGAL Extension (Manifest V3)
-const DEFAULT_URL = "https://google.com";
+const FIXED_URL = "https://sigal-ex.vercel.app";
 
 chrome.runtime.onInstalled.addListener(() => {
-  chrome.storage.local.get(["targetUrl"], (result) => {
-    if (!result.targetUrl) {
-      chrome.storage.local.set({ targetUrl: DEFAULT_URL });
-    }
-  });
+  chrome.storage.local.set({ targetUrl: FIXED_URL });
 });
 
 // Extension toolbar icon click action
