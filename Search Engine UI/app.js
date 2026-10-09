@@ -18,8 +18,6 @@
     { id: '7', title: 'Gmail', url: 'https://mail.google.com' }
   ];
 
-  const DRIVE_FOLDER_URL = 'https://drive.google.com/drive/folders/1SG4atyqhExuf0B_1F7pWpmF1fhS2iHAf?usp=drive_link';
-
   // State
   let settings = Object.assign({
     openInNewTab: false,
@@ -79,8 +77,6 @@
   const settingNewTab = document.getElementById('setting-new-tab');
   const settingShowShortcuts = document.getElementById('setting-show-shortcuts');
   const settingAiEngine = document.getElementById('setting-ai-engine');
-  const copyDriveBtn = document.getElementById('copy-drive-btn');
-  const copyDriveText = document.getElementById('copy-drive-text');
 
   const shortcutModal = document.getElementById('shortcut-modal');
   const shortcutModalClose = document.getElementById('shortcut-modal-close');
@@ -317,33 +313,6 @@
     settingAiEngine.addEventListener('change', () => {
       settings.aiEngine = settingAiEngine.value;
       localStorage.setItem('g_settings', JSON.stringify(settings));
-    });
-  }
-
-  if (copyDriveBtn) {
-    copyDriveBtn.addEventListener('click', async () => {
-      try {
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-          await navigator.clipboard.writeText(DRIVE_FOLDER_URL);
-        } else {
-          const ta = document.createElement('textarea');
-          ta.value = DRIVE_FOLDER_URL;
-          ta.style.position = 'fixed';
-          ta.style.opacity = '0';
-          document.body.appendChild(ta);
-          ta.select();
-          document.execCommand('copy');
-          ta.remove();
-        }
-        if (copyDriveText) {
-          copyDriveText.textContent = 'Kopyalandı!';
-          copyDriveBtn.classList.add('text-green-600', 'bg-green-50', 'border-green-200');
-          setTimeout(() => {
-            copyDriveText.textContent = 'Linki Kopyala';
-            copyDriveBtn.classList.remove('text-green-600', 'bg-green-50', 'border-green-200');
-          }, 2000);
-        }
-      } catch (_) {}
     });
   }
 
