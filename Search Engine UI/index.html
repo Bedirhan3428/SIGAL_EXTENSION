@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Google</title>
+  <link rel="icon" type="image/x-icon" href="../favicon.ico">
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@100..900&display=swap"
+    rel="stylesheet">
+  <!-- Tailwind CSS v3 Play CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            google: {
+              blue: '#1a73e8',
+              hoverblue: '#1557b0',
+              text: '#1e293b',
+              subtext: '#64748b'
+            }
+          },
+          fontFamily: {
+            sans: ['"Google Sans Flex"', '"Google Sans"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="bg-white text-google-text font-sans w-screen h-screen overflow-hidden flex flex-col relative select-none">
+
+  <!-- Top Navigation Bar -->
+  <header class="absolute top-0 left-0 w-full h-[64px] px-8 flex items-center justify-end gap-5 z-50">
+    <div class="flex items-center gap-5 text-sm font-medium text-slate-700">
+      <a href="https://mail.google.com" target="_blank" class="hover:text-blue-600 transition-colors">Gmail</a>
+      <a href="https://www.google.com/imghp" target="_blank" class="hover:text-blue-600 transition-colors">Görseller</a>
+    </div>
+    <button id="settings-trigger"
+      class="w-10 h-10 rounded-full liquid-glass flex items-center justify-center text-slate-600 hover:text-slate-900 transition-all cursor-pointer"
+      aria-label="Ayarlar" title="Ayarlar">
+      <svg viewBox="0 0 24 24" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="3" />
+        <path
+          d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
+      </svg>
+    </button>
+  </header>
+
+  <!-- Main Content Hub with Search at 50% and Clock at ~75% -->
+  <main class="w-full h-full flex flex-col items-center justify-center relative z-10 px-4">
+    <!-- Refined Clock with Seconds (Bigger & Semibold, ~75% position) -->
+    <div id="clock-container" class="absolute top-[16%] sm:top-[18%] md:top-[20%] flex flex-col items-center justify-center select-none">
+      <div class="flex items-baseline text-slate-800 leading-none">
+        <span id="clock-hm" class="text-7xl sm:text-8xl font-semibold tracking-tight">12:00</span>
+        <span id="clock-sec" class="text-3xl sm:text-4xl font-medium text-slate-400 ml-2.5 sm:ml-3">00</span>
+      </div>
+      <div id="clock-date" class="text-sm sm:text-base font-medium text-slate-500 mt-2 tracking-wide capitalize">
+        1 Ocak Perşembe
+      </div>
+    </div>
+
+    <!-- Centered Search Section & Shortcuts (At exact 50% center) -->
+    <div class="w-full max-w-[584px] flex flex-col items-center">
+      <!-- Liquid Glass Search Bar Section -->
+      <div class="w-full relative">
+        <form id="search-form" class="w-full h-13 rounded-full flex items-center px-4 py-2" autocomplete="off">
+          <!-- Magnifier Icon (Left) -->
+          <span class="text-slate-500 mr-3 flex items-center justify-center">
+            <svg viewBox="0 0 24 24" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2">
+              <circle cx="11" cy="11" r="8" />
+              <line x1="21" y1="21" x2="16.65" y2="16.65" />
+            </svg>
+          </span>
+
+          <input type="text" id="search-input"
+            class="flex-1 h-full bg-transparent border-0 outline-none text-slate-800 text-base font-medium placeholder-slate-500"
+            placeholder="Google'da arayın veya bir URL yazın" autofocus spellcheck="false">
+
+          <!-- Clear Button (Right) -->
+          <button type="button" id="clear-btn" class="p-1.5 text-slate-400 hover:text-slate-700 transition-colors"
+            aria-label="Temizle" style="display: none;">
+            <svg viewBox="0 0 24 24" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="18" y1="6" x2="6" y2="18" />
+              <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+          </button>
+
+          <!-- AI Search Button (Google AI) -->
+          <button type="button" id="ai-search-btn"
+            class="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold text-blue-600 bg-blue-50/90 hover:bg-blue-100 hover:text-blue-700 border border-blue-200/80 transition-all ml-1 cursor-pointer select-none"
+            title="Google AI ile Ara" aria-label="Google AI ile Ara">
+            <svg viewBox="0 0 24 24" class="w-3.5 h-3.5" fill="currentColor">
+              <path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456z"/>
+            </svg>
+            <span>Google AI</span>
+          </button>
+
+          <!-- Submit Button -->
+          <button type="submit"
+            class="w-9 h-9 rounded-full bg-blue-600/90 hover:bg-blue-600 text-white flex items-center justify-center transition-all ml-1 shadow-sm"
+            aria-label="Ara">
+            <svg viewBox="0 0 24 24" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5">
+              <polyline points="9 18 15 12 9 6" />
+            </svg>
+          </button>
+        </form>
+
+        <!-- Autocomplete Suggestions List (Liquid Glass) -->
+        <div id="suggestions-box" class="absolute top-full left-0 w-full rounded-b-3xl py-2 z-50 hidden flex-col"></div>
+      </div>
+
+      <!-- Shortcuts Grid (Liquid Glass) -->
+      <div id="shortcuts-grid" class="flex flex-wrap justify-center gap-4 max-w-[560px] mt-6"></div>
+    </div>
+  </main>
+
+  <!-- Clean Settings Modal (Liquid Glass) -->
+  <div id="settings-modal"
+    class="fixed inset-0 bg-slate-900/25 backdrop-blur-md z-50 hidden items-center justify-center">
+    <div class="w-[360px] liquid-modal-card rounded-3xl p-6 flex flex-col gap-4">
+      <div class="flex items-center justify-between">
+        <span class="text-base font-semibold text-slate-800">Ayarlar</span>
+        <button id="modal-close"
+          class="p-1.5 rounded-full text-slate-500 hover:bg-white/60 hover:text-slate-800 transition-colors">
+          <svg viewBox="0 0 24 24" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
+        </button>
+      </div>
+
+      <div class="flex items-center justify-between py-1.5">
+        <span class="text-sm font-medium text-slate-700">Sonuçları Yeni Sekmede Aç</span>
+        <label class="relative inline-flex items-center cursor-pointer">
+          <input type="checkbox" id="setting-new-tab" class="sr-only peer">
+          <div
+            class="w-9 h-5 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600">
+          </div>
+        </label>
+      </div>
+
+      <div class="flex items-center justify-between py-1.5">
+        <span class="text-sm font-medium text-slate-700">Kısayolları Göster</span>
+        <label class="relative inline-flex items-center cursor-pointer">
+          <input type="checkbox" id="setting-show-shortcuts" checked class="sr-only peer">
+          <div
+            class="w-9 h-5 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600">
+          </div>
+        </label>
+      </div>
+
+      <div class="flex items-center justify-between py-1.5">
+        <span class="text-sm font-medium text-slate-700">AI Arama Motoru</span>
+        <select id="setting-ai-engine"
+          class="bg-slate-50 border border-slate-200 text-slate-700 text-xs rounded-xl px-2.5 py-1.5 outline-none focus:border-blue-500 font-medium cursor-pointer">
+          <option value="google_ai">Google AI (AI Modu)</option>
+          <option value="gemini">Google Gemini</option>
+          <option value="perplexity">Perplexity</option>
+          <option value="chatgpt">ChatGPT</option>
+          <option value="claude">Claude</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Shortcut Modal (Liquid Glass) -->
+  <div id="shortcut-modal"
+    class="fixed inset-0 bg-slate-900/25 backdrop-blur-md z-50 hidden items-center justify-center">
+    <div class="w-[330px] liquid-modal-card rounded-3xl p-6">
+      <div class="flex items-center justify-between mb-4">
+        <span class="text-base font-semibold text-slate-800">Kısayol Ekle</span>
+        <button id="shortcut-modal-close"
+          class="p-1.5 rounded-full text-slate-500 hover:bg-white/60 hover:text-slate-800 transition-colors">
+          <svg viewBox="0 0 24 24" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
+        </button>
+      </div>
+      <form id="shortcut-form">
+        <div class="flex flex-col gap-1.5 mb-3">
+          <label for="sc-title" class="text-xs text-slate-600 font-semibold">Ad</label>
+          <input type="text" id="sc-title"
+            class="w-full px-3.5 py-2 rounded-xl bg-white/70 border border-white/80 text-sm outline-none focus:border-blue-500 shadow-sm"
+            placeholder="YouTube" required>
+        </div>
+        <div class="flex flex-col gap-1.5 mb-4">
+          <label for="sc-url" class="text-xs text-slate-600 font-semibold">URL</label>
+          <input type="url" id="sc-url"
+            class="w-full px-3.5 py-2 rounded-xl bg-white/70 border border-white/80 text-sm outline-none focus:border-blue-500 shadow-sm"
+            placeholder="https://youtube.com" required>
+        </div>
+        <div class="flex justify-end gap-2">
+          <button type="button" id="sc-cancel"
+            class="px-4 py-2 text-sm font-semibold text-slate-600 hover:bg-white/60 rounded-xl transition-colors">İptal</button>
+          <button type="submit"
+            class="px-4 py-2 text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 rounded-xl transition-colors shadow-sm">Bitti</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+
+</html>

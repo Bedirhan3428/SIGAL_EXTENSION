@@ -1,0 +1,8 @@
+{
+  "name": "sigal-search-engine",
+  "version": "1.0.0",
+  "description": "Minimal Liquid Glass Search Engine UI",
+  "scripts": {
+    "deploy": "vercel --prod"
+  }
+}
