@@ -23,6 +23,7 @@
     openInNewTab: false,
     showShortcuts: true,
     showSchedule: true,
+    showExamTimer: true,
     aiEngine: 'google_ai'
   }, JSON.parse(localStorage.getItem('g_settings') || '{}'));
 
@@ -101,6 +102,7 @@
   const settingNewTab = document.getElementById('setting-new-tab');
   const settingShowShortcuts = document.getElementById('setting-show-shortcuts');
   const settingShowSchedule = document.getElementById('setting-show-schedule');
+  const settingShowExamTimer = document.getElementById('setting-show-exam-timer');
   const settingAiEngine = document.getElementById('setting-ai-engine');
 
   // Schedule Elements
@@ -111,6 +113,24 @@
   const lessonCountdown = document.getElementById('lesson-countdown');
   const lessonCountdownLabel = document.getElementById('lesson-countdown-label');
   const lessonProgressBar = document.getElementById('lesson-progress-bar');
+
+  // Deneme Sayacı Elements
+  const examTimerCard = document.getElementById('exam-timer-card');
+  const examIndicator = document.getElementById('exam-indicator');
+  const examCountdown = document.getElementById('exam-countdown');
+  const examPctText = document.getElementById('exam-pct-text');
+  const examTimeSub = document.getElementById('exam-time-sub');
+  const examMinutesInput = document.getElementById('exam-minutes-input');
+  const examToggleBtn = document.getElementById('exam-toggle-btn');
+  const examToggleIcon = document.getElementById('exam-toggle-icon');
+  const examToggleText = document.getElementById('exam-toggle-text');
+  const examResetBtn = document.getElementById('exam-reset-btn');
+  const examProgressBar = document.getElementById('exam-progress-bar');
+  const examPresets = document.getElementById('exam-presets');
+  const examPresetBtns = document.querySelectorAll('.exam-preset-btn');
+  const examStatusInfo = document.getElementById('exam-status-info');
+  const examStatusLabel = document.getElementById('exam-status-label');
+  const examStatusSub = document.getElementById('exam-status-sub');
 
   const shortcutModal = document.getElementById('shortcut-modal');
   const shortcutModalClose = document.getElementById('shortcut-modal-close');
@@ -134,9 +154,11 @@
     settingNewTab.checked = settings.openInNewTab;
     settingShowShortcuts.checked = settings.showShortcuts;
     if (settingShowSchedule) settingShowSchedule.checked = settings.showSchedule !== false;
+    if (settingShowExamTimer) settingShowExamTimer.checked = settings.showExamTimer !== false;
     if (settingAiEngine) settingAiEngine.value = settings.aiEngine || 'google_ai';
     shortcutsGrid.style.display = settings.showShortcuts ? 'flex' : 'none';
     if (scheduleCard) scheduleCard.style.display = (settings.showSchedule !== false) ? 'block' : 'none';
+    if (examTimerCard) examTimerCard.style.display = (settings.showExamTimer !== false) ? 'block' : 'none';
     localStorage.setItem('g_settings', JSON.stringify(settings));
   }
 
@@ -352,6 +374,13 @@
     });
   }
 
+  if (settingShowExamTimer) {
+    settingShowExamTimer.addEventListener('change', () => {
+      settings.showExamTimer = settingShowExamTimer.checked;
+      applySettings();
+    });
+  }
+
   if (settingAiEngine) {
     settingAiEngine.addEventListener('change', () => {
       settings.aiEngine = settingAiEngine.value;
@@ -407,7 +436,7 @@
     const m = Math.floor((sec % 3600) / 60);
     const s = sec % 60;
     if (h > 0) {
-      return `${h}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+      return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
     }
     return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
   }
@@ -517,14 +546,328 @@
     return d.innerHTML;
   }
 
+  // --- Deneme Sayacı (Practice Exam Timer) Controller ---
+  let examState = Object.assign({
+    minutes: 40,
+    totalSec: 40 * 60,
+    remainingSec: 40 * 60,
+    isRunning: false,
+    endTime: null,
+    isFinished: false
+  }, JSON.parse(localStorage.getItem('sigal_exam_state') || '{}'));
+
+  // Sync state if it was running when tab was closed/reloaded
+  if (examState.isRunning && examState.endTime) {
+    const now = Date.now();
+    const remaining = Math.round((examState.endTime - now) / 1000);
+    if (remaining <= 0) {
+      examState.remainingSec = 0;
+      examState.isRunning = false;
+      examState.isFinished = true;
+      examState.endTime = null;
+    } else {
+      examState.remainingSec = remaining;
+    }
+  }
+
+  function saveExamState() {
+    localStorage.setItem('sigal_exam_state', JSON.stringify(examState));
+  }
+
+  function playAlarmChime() {
+    try {
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      if (!AudioCtx) return;
+      const ctx = new AudioCtx();
+      const now = ctx.currentTime;
+      [0, 0.22, 0.44].forEach((delay) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(880, now + delay);
+        gain.gain.setValueAtTime(0.2, now + delay);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + delay + 0.18);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(now + delay);
+        osc.stop(now + delay + 0.18);
+      });
+    } catch (_) {}
+  }
+
+  function renderExamTimer() {
+    if (!examTimerCard || !examCountdown) return;
+
+    const total = examState.totalSec || (examState.minutes * 60) || 2400;
+    const remaining = Math.max(0, examState.remainingSec);
+    const pct = total > 0 ? Math.min(100, Math.max(0, (remaining / total) * 100)) : 0;
+
+    // Display formatted time
+    examCountdown.textContent = formatCountdown(remaining);
+    if (examPctText) examPctText.textContent = `${Math.round(pct)}%`;
+    if (examProgressBar) examProgressBar.style.width = `${pct}%`;
+
+    if (examMinutesInput) {
+      examMinutesInput.disabled = examState.isRunning;
+      if (examState.isRunning) {
+        examMinutesInput.classList.add('opacity-60', 'cursor-not-allowed');
+      } else {
+        examMinutesInput.classList.remove('opacity-60', 'cursor-not-allowed');
+      }
+      if (document.activeElement !== examMinutesInput) {
+        examMinutesInput.value = examState.minutes || 40;
+      }
+    }
+
+    if (examPresetBtns) {
+      examPresetBtns.forEach(btn => {
+        btn.disabled = examState.isRunning;
+        if (examState.isRunning) {
+          btn.classList.add('opacity-40', 'cursor-not-allowed');
+        } else {
+          btn.classList.remove('opacity-40', 'cursor-not-allowed');
+        }
+      });
+    }
+
+    const hasStarted = examState.isRunning || (examState.remainingSec < total) || examState.isFinished;
+
+    // Toggle bottom section: presets when idle, status info once started
+    if (examPresets && examStatusInfo) {
+      if (hasStarted) {
+        examPresets.classList.add('hidden');
+        examPresets.classList.remove('flex');
+        examStatusInfo.classList.remove('hidden');
+        examStatusInfo.classList.add('flex');
+      } else {
+        examPresets.classList.remove('hidden');
+        examPresets.classList.add('flex');
+        examStatusInfo.classList.add('hidden');
+        examStatusInfo.classList.remove('flex');
+      }
+    }
+
+    // Dynamic Theme based on remaining %:
+    // >= 50%: Yeşil (Emerald)
+    // 20% - 50%: Mavi (Blue)
+    // < 20%: Kırmızı (Rose/Red)
+    if (examState.isFinished || remaining === 0) {
+      // Finished state (0%)
+      if (examProgressBar) examProgressBar.className = 'h-full bg-rose-600 rounded-full transition-all duration-300';
+      if (examIndicator) examIndicator.className = 'w-3 h-3 rounded-full bg-rose-600 ring-4 ring-rose-100 animate-pulse flex-shrink-0';
+      if (examStatusLabel) {
+        examStatusLabel.className = 'tracking-tight text-rose-600 font-bold animate-pulse';
+        examStatusLabel.textContent = 'Süre Bitti!';
+      }
+      if (examStatusSub) examStatusSub.textContent = 'Tamamlandı';
+      if (examTimeSub) examTimeSub.textContent = 'Süre Tamamlandı';
+      examCountdown.className = 'text-3xl sm:text-4xl font-black tracking-tight text-rose-600 font-mono leading-none animate-pulse';
+      if (examToggleBtn) {
+        examToggleBtn.className = 'h-9 px-3.5 rounded-xl text-xs font-bold text-white bg-rose-600 hover:bg-rose-700 shadow-sm flex items-center gap-1.5 transition-all cursor-pointer';
+        examToggleIcon.innerHTML = '<polygon points="5 3 19 12 5 21 5 3"/>';
+        examToggleText.textContent = 'Yeniden';
+      }
+    } else if (!examState.isRunning && hasStarted) {
+      // Paused mid-exam
+      const isGreen = pct >= 50;
+      const isBlue = pct >= 20 && pct < 50;
+      if (examProgressBar) examProgressBar.className = `h-full ${isGreen ? 'bg-emerald-500' : (isBlue ? 'bg-blue-600' : 'bg-rose-600')} rounded-full transition-all duration-300`;
+      if (examIndicator) examIndicator.className = `w-3 h-3 rounded-full ${isGreen ? 'bg-emerald-500 ring-4 ring-emerald-100' : (isBlue ? 'bg-blue-600 ring-4 ring-blue-100' : 'bg-rose-600 ring-4 ring-rose-100')} flex-shrink-0`;
+      if (examStatusLabel) {
+        examStatusLabel.className = 'tracking-tight text-amber-600 font-bold';
+        examStatusLabel.textContent = 'Duraklatıldı';
+      }
+      if (examStatusSub) examStatusSub.textContent = `%${Math.round(pct)} kaldı`;
+      if (examTimeSub) examTimeSub.textContent = 'Kalan Süre';
+      examCountdown.className = 'text-3xl sm:text-4xl font-black tracking-tight text-slate-800 font-mono leading-none';
+      if (examToggleBtn) {
+        examToggleBtn.className = `h-9 px-3.5 rounded-xl text-xs font-bold text-white ${isGreen ? 'bg-emerald-600 hover:bg-emerald-700' : (isBlue ? 'bg-blue-600 hover:bg-blue-700' : 'bg-rose-600 hover:bg-rose-700')} shadow-sm flex items-center gap-1.5 transition-all cursor-pointer`;
+        examToggleIcon.innerHTML = '<polygon points="5 3 19 12 5 21 5 3"/>';
+        examToggleText.textContent = 'Devam';
+      }
+    } else if (pct >= 50) {
+      // Green Theme (>= 50%)
+      if (examProgressBar) examProgressBar.className = 'h-full bg-emerald-500 rounded-full transition-all duration-300';
+      if (examIndicator) examIndicator.className = 'w-3 h-3 rounded-full bg-emerald-500 ring-4 ring-emerald-100 flex-shrink-0';
+      if (examStatusLabel) {
+        examStatusLabel.className = 'tracking-tight text-emerald-600 font-bold';
+        examStatusLabel.textContent = 'Devam Ediyor';
+      }
+      if (examStatusSub) examStatusSub.textContent = `%${Math.round(pct)} kaldı`;
+      if (examTimeSub) examTimeSub.textContent = 'Kalan Süre';
+      examCountdown.className = 'text-3xl sm:text-4xl font-black tracking-tight text-slate-900 font-mono leading-none';
+      if (examToggleBtn) {
+        examToggleBtn.className = 'h-9 px-3.5 rounded-xl text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 shadow-sm flex items-center gap-1.5 transition-all cursor-pointer';
+        if (examState.isRunning) {
+          examToggleIcon.innerHTML = '<rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>';
+          examToggleText.textContent = 'Duraklat';
+        } else {
+          examToggleIcon.innerHTML = '<polygon points="5 3 19 12 5 21 5 3"/>';
+          examToggleText.textContent = 'Başlat';
+        }
+      }
+    } else if (pct >= 20) {
+      // Blue Theme (20% to 50%)
+      if (examProgressBar) examProgressBar.className = 'h-full bg-blue-600 rounded-full transition-all duration-300';
+      if (examIndicator) examIndicator.className = 'w-3 h-3 rounded-full bg-blue-600 ring-4 ring-blue-100 flex-shrink-0';
+      if (examStatusLabel) {
+        examStatusLabel.className = 'tracking-tight text-blue-600 font-bold';
+        examStatusLabel.textContent = 'Devam Ediyor';
+      }
+      if (examStatusSub) examStatusSub.textContent = `%${Math.round(pct)} kaldı`;
+      if (examTimeSub) examTimeSub.textContent = 'Kalan Süre';
+      examCountdown.className = 'text-3xl sm:text-4xl font-black tracking-tight text-blue-900 font-mono leading-none';
+      if (examToggleBtn) {
+        examToggleBtn.className = 'h-9 px-3.5 rounded-xl text-xs font-bold text-white bg-blue-600 hover:bg-blue-700 shadow-sm flex items-center gap-1.5 transition-all cursor-pointer';
+        if (examState.isRunning) {
+          examToggleIcon.innerHTML = '<rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>';
+          examToggleText.textContent = 'Duraklat';
+        } else {
+          examToggleIcon.innerHTML = '<polygon points="5 3 19 12 5 21 5 3"/>';
+          examToggleText.textContent = 'Devam';
+        }
+      }
+    } else {
+      // Red Theme (< 20%)
+      if (examProgressBar) examProgressBar.className = 'h-full bg-rose-600 rounded-full transition-all duration-300';
+      if (examIndicator) examIndicator.className = 'w-3 h-3 rounded-full bg-rose-600 ring-4 ring-rose-100 animate-pulse flex-shrink-0';
+      if (examStatusLabel) {
+        examStatusLabel.className = 'tracking-tight text-rose-600 font-bold animate-pulse';
+        examStatusLabel.textContent = 'Devam Ediyor';
+      }
+      if (examStatusSub) examStatusSub.textContent = `%${Math.round(pct)} kaldı`;
+      if (examTimeSub) examTimeSub.textContent = 'Kalan Süre';
+      examCountdown.className = 'text-3xl sm:text-4xl font-black tracking-tight text-rose-600 font-mono leading-none';
+      if (examToggleBtn) {
+        examToggleBtn.className = 'h-9 px-3.5 rounded-xl text-xs font-bold text-white bg-rose-600 hover:bg-rose-700 shadow-sm flex items-center gap-1.5 transition-all cursor-pointer';
+        if (examState.isRunning) {
+          examToggleIcon.innerHTML = '<rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>';
+          examToggleText.textContent = 'Duraklat';
+        } else {
+          examToggleIcon.innerHTML = '<polygon points="5 3 19 12 5 21 5 3"/>';
+          examToggleText.textContent = 'Devam';
+        }
+      }
+    }
+  }
+
+  function tickExamTimer() {
+    if (!examState.isRunning) return;
+
+    if (examState.endTime) {
+      const remaining = Math.round((examState.endTime - Date.now()) / 1000);
+      if (remaining <= 0) {
+        examState.remainingSec = 0;
+        examState.isRunning = false;
+        examState.isFinished = true;
+        examState.endTime = null;
+        saveExamState();
+        renderExamTimer();
+        playAlarmChime();
+        return;
+      }
+      examState.remainingSec = remaining;
+    } else {
+      examState.remainingSec = Math.max(0, examState.remainingSec - 1);
+      if (examState.remainingSec <= 0) {
+        examState.remainingSec = 0;
+        examState.isRunning = false;
+        examState.isFinished = true;
+        saveExamState();
+        renderExamTimer();
+        playAlarmChime();
+        return;
+      }
+    }
+    saveExamState();
+    renderExamTimer();
+  }
+
+  function startExamTimer() {
+    if (examState.isFinished) {
+      resetExamTimer();
+    }
+    examState.isRunning = true;
+    examState.isFinished = false;
+    examState.endTime = Date.now() + (examState.remainingSec * 1000);
+    saveExamState();
+    renderExamTimer();
+  }
+
+  function pauseExamTimer() {
+    if (examState.isRunning && examState.endTime) {
+      examState.remainingSec = Math.max(0, Math.round((examState.endTime - Date.now()) / 1000));
+    }
+    examState.isRunning = false;
+    examState.endTime = null;
+    saveExamState();
+    renderExamTimer();
+  }
+
+  function resetExamTimer(mins) {
+    const m = (typeof mins === 'number') ? mins : (parseInt(examMinutesInput.value, 10) || examState.minutes || 40);
+    const clampedMins = Math.max(1, Math.min(600, m));
+    examState.minutes = clampedMins;
+    examState.totalSec = clampedMins * 60;
+    examState.remainingSec = clampedMins * 60;
+    examState.isRunning = false;
+    examState.endTime = null;
+    examState.isFinished = false;
+    saveExamState();
+    renderExamTimer();
+  }
+
+  // Event Listeners for Exam Timer
+  if (examToggleBtn) {
+    examToggleBtn.addEventListener('click', () => {
+      if (examState.isRunning) {
+        pauseExamTimer();
+      } else {
+        startExamTimer();
+      }
+    });
+  }
+
+  if (examResetBtn) {
+    examResetBtn.addEventListener('click', () => {
+      resetExamTimer();
+    });
+  }
+
+  if (examMinutesInput) {
+    examMinutesInput.addEventListener('change', () => {
+      resetExamTimer(parseInt(examMinutesInput.value, 10));
+    });
+    examMinutesInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        examMinutesInput.blur();
+      }
+    });
+  }
+
+  if (examPresetBtns) {
+    examPresetBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (examState.isRunning) return;
+        const mins = parseInt(btn.dataset.mins, 10);
+        if (mins) {
+          resetExamTimer(mins);
+        }
+      });
+    });
+  }
+
   // Initialize
   applySettings();
   renderShortcuts();
   updateLessonCountdown();
+  renderExamTimer();
   updateClock();
   setInterval(() => {
     updateClock();
     updateLessonCountdown();
+    tickExamTimer();
   }, 1000);
 
 })();

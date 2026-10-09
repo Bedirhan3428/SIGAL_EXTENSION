@@ -141,3 +141,13 @@ body::-webkit-scrollbar {
   line-height: 1;
   text-transform: uppercase;
 }
+
+/* Hide scrollbars utility */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
