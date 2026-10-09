@@ -55,10 +55,10 @@
     </button>
   </header>
 
-  <!-- Main Content Hub with Search at 50% and Clock at ~75% -->
-  <main class="w-full h-full flex flex-col items-center justify-center relative z-10 px-4">
-    <!-- Refined Clock with Seconds (Bigger & Semibold, ~75% position) -->
-    <div id="clock-container" class="absolute top-[16%] sm:top-[18%] md:top-[20%] flex flex-col items-center justify-center select-none">
+  <!-- Main Content Hub with Stable Flow: Clock and Search anchored in place -->
+  <main class="w-full min-h-full flex flex-col items-center justify-start pt-[8vh] sm:pt-[10vh] pb-12 relative z-10 px-4">
+    <!-- Refined Clock with Seconds (Stable natural flow, never overlapping) -->
+    <div id="clock-container" class="flex flex-col items-center justify-center select-none mb-7 sm:mb-8">
       <div class="flex items-baseline text-slate-800 leading-none">
         <span id="clock-hm" class="text-7xl sm:text-8xl font-semibold tracking-tight">12:00</span>
         <span id="clock-sec" class="text-3xl sm:text-4xl font-medium text-slate-400 ml-2.5 sm:ml-3">00</span>
@@ -68,7 +68,7 @@
       </div>
     </div>
 
-    <!-- Centered Search Section & Shortcuts (At exact 50% center) -->
+    <!-- Centered Search Section & Shortcuts (Positioned securely below clock, never shifting) -->
     <div class="w-full max-w-[584px] flex flex-col items-center">
       <!-- Liquid Glass Search Bar Section -->
       <div class="w-full relative">
@@ -122,22 +122,22 @@
       <div id="shortcuts-grid" class="flex flex-wrap justify-center gap-4 max-w-[560px] mt-6"></div>
 
       <!-- Live Lesson / Break Countdown Card -->
-      <div id="schedule-card" class="w-full max-w-[460px] liquid-schedule-card rounded-2xl p-4 mt-6 select-none relative overflow-hidden">
+      <div id="schedule-card" class="w-full max-w-[480px] liquid-schedule-card rounded-2xl p-4 sm:p-5 mt-6 select-none relative overflow-hidden">
         <div class="flex items-center justify-between">
-          <div class="flex items-center gap-3">
-            <div id="status-indicator" class="w-3 h-3 rounded-full bg-blue-600 animate-pulse ring-4 ring-blue-100 flex-shrink-0"></div>
+          <div class="flex items-center gap-3.5">
+            <div id="status-indicator" class="w-3.5 h-3.5 rounded-full bg-blue-600 animate-pulse ring-4 ring-blue-100 flex-shrink-0"></div>
             <div class="flex flex-col">
-              <span id="lesson-status-title" class="text-sm font-semibold text-slate-800">Ders Durumu</span>
+              <span id="lesson-status-title" class="text-base font-bold text-slate-800 tracking-tight">Ders Durumu</span>
               <span id="lesson-status-sub" class="text-xs text-slate-500 font-medium mt-0.5">Yükleniyor...</span>
             </div>
           </div>
           <div class="flex flex-col items-end">
-            <span id="lesson-countdown" class="text-xl font-bold tracking-tight text-slate-900 font-mono">--:--</span>
-            <span id="lesson-countdown-label" class="text-[11px] text-slate-400 font-medium">kaldı</span>
+            <span id="lesson-countdown" class="text-3xl sm:text-4xl font-bold tracking-tight text-slate-900 font-mono leading-none">--:--</span>
+            <span id="lesson-countdown-label" class="text-xs text-slate-400 font-medium mt-1">kaldı</span>
           </div>
         </div>
         <!-- Progress Bar -->
-        <div class="w-full h-1.5 bg-slate-100 rounded-full mt-3.5 overflow-hidden">
+        <div class="w-full h-1.5 bg-slate-100 rounded-full mt-4 overflow-hidden">
           <div id="lesson-progress-bar" class="h-full bg-blue-600 rounded-full transition-all duration-1000 ease-linear" style="width: 0%;"></div>
         </div>
       </div>
