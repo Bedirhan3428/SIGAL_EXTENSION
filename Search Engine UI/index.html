@@ -120,6 +120,25 @@
 
       <!-- Shortcuts Grid (Liquid Glass) -->
       <div id="shortcuts-grid" class="flex flex-wrap justify-center gap-4 max-w-[560px] mt-6"></div>
+
+      <!-- Schedule Card (Ders Saatleri) -->
+      <div id="schedule-card" class="w-full max-w-[560px] liquid-schedule-card rounded-2xl p-3.5 mt-5">
+        <!-- Card Header / Day Tabs -->
+        <div class="flex items-center justify-between mb-2.5 px-0.5">
+          <div class="flex items-center gap-2">
+            <span class="text-xs font-semibold text-slate-700">Ders Saatleri</span>
+            <span id="schedule-day-badge" class="text-[10px] font-medium px-2 py-0.5 rounded-full bg-blue-50 text-blue-600 border border-blue-100">Bugün</span>
+          </div>
+          <!-- Day Toggle Tabs -->
+          <div class="flex items-center bg-slate-100 p-0.5 rounded-xl text-[11px] font-medium text-slate-600">
+            <button type="button" id="tab-week" class="px-2.5 py-1 rounded-lg transition-all cursor-pointer bg-white text-slate-800 shadow-xs font-semibold">Pzt - Per</button>
+            <button type="button" id="tab-fri" class="px-2.5 py-1 rounded-lg transition-all cursor-pointer text-slate-500 hover:text-slate-800">Cuma</button>
+          </div>
+        </div>
+
+        <!-- Lessons Grid (4 columns x 2 rows) -->
+        <div id="lessons-grid" class="grid grid-cols-4 gap-2"></div>
+      </div>
     </div>
   </main>
 
@@ -152,6 +171,16 @@
         <span class="text-sm font-medium text-slate-700">Kısayolları Göster</span>
         <label class="relative inline-flex items-center cursor-pointer">
           <input type="checkbox" id="setting-show-shortcuts" checked class="sr-only peer">
+          <div
+            class="w-9 h-5 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600">
+          </div>
+        </label>
+      </div>
+
+      <div class="flex items-center justify-between py-1.5">
+        <span class="text-sm font-medium text-slate-700">Ders Programını Göster</span>
+        <label class="relative inline-flex items-center cursor-pointer">
+          <input type="checkbox" id="setting-show-schedule" checked class="sr-only peer">
           <div
             class="w-9 h-5 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600">
           </div>

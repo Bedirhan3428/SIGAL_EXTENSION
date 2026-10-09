@@ -7,11 +7,18 @@ html, body {
   height: 100%;
   margin: 0;
   padding: 0;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
   background-color: #ffffff;
   position: relative;
   font-family: "Google Sans Flex", "Google Sans", -apple-system, BlinkMacSystemFont, sans-serif;
   -webkit-font-smoothing: antialiased;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+body::-webkit-scrollbar {
+  display: none;
 }
 
 /* Minimal Frosted Glass Button */
@@ -95,4 +102,34 @@ html, body {
   background: #ffffff;
   border: 1px solid #dfe1e5;
   box-shadow: 0 20px 48px rgba(0, 0, 0, 0.2);
+}
+
+/* Schedule Card */
+.liquid-schedule-card {
+  background: #ffffff;
+  border: 1px solid #dfe1e5;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.liquid-schedule-card:hover {
+  border-color: #dadce0;
+  box-shadow: 0 2px 8px rgba(32, 33, 36, 0.1);
+}
+
+.lesson-tile {
+  background: #f8f9fa;
+  border: 1px solid #f1f3f4;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.lesson-tile:hover {
+  background: #f1f3f4;
+  border-color: #dadce0;
+}
+
+.lesson-tile.active-lesson {
+  background: #eff6ff;
+  border-color: #bfdbfe;
+  box-shadow: 0 1px 4px rgba(37, 99, 235, 0.12);
 }

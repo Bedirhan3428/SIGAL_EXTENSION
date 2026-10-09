@@ -22,8 +22,32 @@
   let settings = Object.assign({
     openInNewTab: false,
     showShortcuts: true,
+    showSchedule: true,
     aiEngine: 'google_ai'
   }, JSON.parse(localStorage.getItem('g_settings') || '{}'));
+
+  const SCHEDULE_DATA = {
+    week: [
+      { num: 1, start: '12:45', end: '13:15' },
+      { num: 2, start: '13:25', end: '13:55' },
+      { num: 3, start: '14:05', end: '14:35' },
+      { num: 4, start: '14:45', end: '15:15' },
+      { num: 5, start: '15:25', end: '15:55' },
+      { num: 6, start: '16:00', end: '16:30' },
+      { num: 7, start: '16:35', end: '17:05' },
+      { num: 8, start: '17:10', end: '17:40' }
+    ],
+    fri: [
+      { num: 1, start: '13:05', end: '13:35' },
+      { num: 2, start: '13:40', end: '14:10' },
+      { num: 3, start: '14:15', end: '14:45' },
+      { num: 4, start: '14:50', end: '15:20' },
+      { num: 5, start: '15:25', end: '15:55' },
+      { num: 6, start: '16:00', end: '16:30' },
+      { num: 7, start: '16:35', end: '17:05' },
+      { num: 8, start: '17:10', end: '17:40' }
+    ]
+  };
 
   // Default to google_ai if not set or previously set to perplexity
   if (!settings.aiEngine || settings.aiEngine === 'perplexity') {
@@ -76,7 +100,15 @@
   const modalClose = document.getElementById('modal-close');
   const settingNewTab = document.getElementById('setting-new-tab');
   const settingShowShortcuts = document.getElementById('setting-show-shortcuts');
+  const settingShowSchedule = document.getElementById('setting-show-schedule');
   const settingAiEngine = document.getElementById('setting-ai-engine');
+
+  // Schedule Elements
+  const scheduleCard = document.getElementById('schedule-card');
+  const lessonsGrid = document.getElementById('lessons-grid');
+  const tabWeek = document.getElementById('tab-week');
+  const tabFri = document.getElementById('tab-fri');
+  const scheduleDayBadge = document.getElementById('schedule-day-badge');
 
   const shortcutModal = document.getElementById('shortcut-modal');
   const shortcutModalClose = document.getElementById('shortcut-modal-close');
@@ -99,8 +131,10 @@
   function applySettings() {
     settingNewTab.checked = settings.openInNewTab;
     settingShowShortcuts.checked = settings.showShortcuts;
+    if (settingShowSchedule) settingShowSchedule.checked = settings.showSchedule !== false;
     if (settingAiEngine) settingAiEngine.value = settings.aiEngine || 'google_ai';
     shortcutsGrid.style.display = settings.showShortcuts ? 'flex' : 'none';
+    if (scheduleCard) scheduleCard.style.display = (settings.showSchedule !== false) ? 'block' : 'none';
     localStorage.setItem('g_settings', JSON.stringify(settings));
   }
 
@@ -309,6 +343,13 @@
     applySettings();
   });
 
+  if (settingShowSchedule) {
+    settingShowSchedule.addEventListener('change', () => {
+      settings.showSchedule = settingShowSchedule.checked;
+      applySettings();
+    });
+  }
+
   if (settingAiEngine) {
     settingAiEngine.addEventListener('change', () => {
       settings.aiEngine = settingAiEngine.value;
@@ -352,6 +393,84 @@
     }
   });
 
+  // Schedule Controller
+  const todayDayOfWeek = new Date().getDay();
+  let activeScheduleTab = (todayDayOfWeek === 5) ? 'fri' : 'week';
+
+  function parseMinutes(timeStr) {
+    const [h, m] = timeStr.split(':').map(Number);
+    return h * 60 + m;
+  }
+
+  function renderSchedule() {
+    if (!lessonsGrid) return;
+    const lessons = SCHEDULE_DATA[activeScheduleTab] || SCHEDULE_DATA.week;
+    const now = new Date();
+    const currentMinutes = now.getHours() * 60 + now.getMinutes();
+    const isTodayTab = (activeScheduleTab === 'fri' && todayDayOfWeek === 5) ||
+                       (activeScheduleTab === 'week' && todayDayOfWeek >= 1 && todayDayOfWeek <= 4);
+
+    if (scheduleDayBadge) {
+      if (isTodayTab) {
+        scheduleDayBadge.textContent = 'Bugün';
+        scheduleDayBadge.className = 'text-[10px] font-semibold px-2 py-0.5 rounded-full bg-blue-50 text-blue-600 border border-blue-100';
+      } else {
+        scheduleDayBadge.textContent = activeScheduleTab === 'fri' ? 'Cuma' : 'Pzt - Per';
+        scheduleDayBadge.className = 'text-[10px] font-medium px-2 py-0.5 rounded-full bg-slate-100 text-slate-500 border border-slate-200';
+      }
+    }
+
+    if (tabWeek && tabFri) {
+      if (activeScheduleTab === 'week') {
+        tabWeek.className = 'px-2.5 py-1 rounded-lg transition-all cursor-pointer bg-white text-slate-800 shadow-xs font-semibold';
+        tabFri.className = 'px-2.5 py-1 rounded-lg transition-all cursor-pointer text-slate-500 hover:text-slate-800 font-medium';
+      } else {
+        tabFri.className = 'px-2.5 py-1 rounded-lg transition-all cursor-pointer bg-white text-slate-800 shadow-xs font-semibold';
+        tabWeek.className = 'px-2.5 py-1 rounded-lg transition-all cursor-pointer text-slate-500 hover:text-slate-800 font-medium';
+      }
+    }
+
+    lessonsGrid.innerHTML = '';
+    lessons.forEach(lesson => {
+      const startMin = parseMinutes(lesson.start);
+      const endMin = parseMinutes(lesson.end);
+      const isActive = isTodayTab && (currentMinutes >= startMin && currentMinutes <= endMin);
+
+      const tile = document.createElement('div');
+      tile.className = `lesson-tile flex flex-col items-center justify-center py-2 px-1 rounded-xl text-center select-none ${isActive ? 'active-lesson' : ''}`;
+
+      if (isActive) {
+        tile.innerHTML = `
+          <div class="flex items-center gap-1">
+            <span class="w-1.5 h-1.5 rounded-full bg-blue-600 animate-pulse"></span>
+            <span class="text-xs font-semibold text-blue-800">${lesson.num}. Ders</span>
+          </div>
+          <span class="text-[11px] font-semibold text-blue-600 mt-0.5">${lesson.start} - ${lesson.end}</span>
+        `;
+      } else {
+        tile.innerHTML = `
+          <span class="text-xs font-semibold text-slate-700">${lesson.num}. Ders</span>
+          <span class="text-[11px] font-medium text-slate-500 mt-0.5">${lesson.start} - ${lesson.end}</span>
+        `;
+      }
+      lessonsGrid.appendChild(tile);
+    });
+  }
+
+  if (tabWeek) {
+    tabWeek.addEventListener('click', () => {
+      activeScheduleTab = 'week';
+      renderSchedule();
+    });
+  }
+
+  if (tabFri) {
+    tabFri.addEventListener('click', () => {
+      activeScheduleTab = 'fri';
+      renderSchedule();
+    });
+  }
+
   function escapeHtml(str) {
     const d = document.createElement('div');
     d.textContent = str;
@@ -361,7 +480,11 @@
   // Initialize
   applySettings();
   renderShortcuts();
+  renderSchedule();
   updateClock();
-  setInterval(updateClock, 1000);
+  setInterval(() => {
+    updateClock();
+    renderSchedule();
+  }, 1000);
 
 })();
