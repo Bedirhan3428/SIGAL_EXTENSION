@@ -6,6 +6,13 @@
   <title>Yeni Sekme</title>
   <link rel="preconnect" href="https://sigal-ex.vercel.app">
   <link rel="dns-prefetch" href="https://sigal-ex.vercel.app">
+  <script>
+    try {
+      if (JSON.parse(localStorage.getItem('g_settings') || '{}').darkMode) {
+        document.documentElement.style.backgroundColor = '#202124';
+      }
+    } catch (_) {}
+  </script>
   <style>
     * {
       box-sizing: border-box;

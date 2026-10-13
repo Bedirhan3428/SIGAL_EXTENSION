@@ -222,3 +222,129 @@ body::-webkit-scrollbar {
   background: rgba(148, 163, 184, 0.9);
 }
 
+/* ========================================================
+   DARK / NIGHT MODE THEME (GOOGLE DARK SPEC)
+   ======================================================== */
+
+html.dark, html.dark body {
+  background-color: #202124 !important;
+  color: #e8eaed !important;
+}
+
+html.dark .liquid-glass {
+  background: rgba(48, 49, 52, 0.85);
+  border-color: #3c4043;
+  color: #e8eaed;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+}
+
+html.dark .liquid-glass:hover {
+  background: #3c4043;
+  border-color: #5f6368;
+  color: #ffffff;
+}
+
+html.dark #search-form {
+  background: #303134;
+  border-color: #3c4043;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.4);
+}
+
+html.dark #search-form:hover, html.dark #search-form:focus-within {
+  background: #303134;
+  border-color: #5f6368;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
+}
+
+html.dark #ai-search-btn {
+  background: #3c4043;
+  color: #8ab4f8;
+  border-color: #5f6368;
+}
+
+html.dark #ai-search-btn:hover {
+  background: #4a4d51;
+  color: #aecbfa;
+  border-color: #8ab4f8;
+  box-shadow: 0 2px 6px rgba(138, 180, 248, 0.25);
+}
+
+html.dark .liquid-tile-box {
+  background: #303134;
+  border-color: #3c4043;
+}
+
+html.dark .group:hover .liquid-tile-box {
+  background: #3c4043;
+  border-color: #5f6368;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+html.dark #suggestions-box {
+  background: #303134;
+  border-color: #3c4043;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
+}
+
+html.dark .liquid-modal-card {
+  background: #303134;
+  border-color: #3c4043;
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.6);
+}
+
+html.dark .liquid-schedule-card {
+  background: #303134;
+  border-color: #3c4043;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+}
+
+html.dark .liquid-schedule-card:hover {
+  border-color: #5f6368;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.45);
+}
+
+html.dark .bg-watermark-text {
+  background: linear-gradient(
+    115deg,
+    rgba(255, 255, 255, 0.035) 0%,
+    rgba(255, 255, 255, 0.035) 35%,
+    rgba(138, 180, 248, 0.15) 42%,
+    rgba(66, 133, 244, 0.45) 47%,
+    rgba(255, 255, 255, 0.8) 50%,
+    rgba(66, 133, 244, 0.45) 53%,
+    rgba(138, 180, 248, 0.15) 58%,
+    rgba(255, 255, 255, 0.035) 65%,
+    rgba(255, 255, 255, 0.035) 100%
+  );
+  background-size: 280% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+html.dark .sigal-beam-text {
+  background: linear-gradient(
+    115deg,
+    #f1f5f9 0%,
+    #f1f5f9 35%,
+    #60a5fa 45%,
+    #93c5fd 50%,
+    #60a5fa 55%,
+    #f1f5f9 65%,
+    #f1f5f9 100%
+  );
+  background-size: 280% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+html.dark #google-apps-menu::-webkit-scrollbar-thumb {
+  background: rgba(100, 116, 139, 0.6);
+}
+
+html.dark #google-apps-menu::-webkit-scrollbar-thumb:hover {
+  background: rgba(148, 163, 184, 0.8);
+}
+
+

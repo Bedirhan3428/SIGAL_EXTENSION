@@ -13,10 +13,18 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@100..900&display=swap"
     rel="stylesheet">
+  <script>
+    try {
+      if (JSON.parse(localStorage.getItem('g_settings') || '{}').darkMode) {
+        document.documentElement.classList.add('dark');
+      }
+    } catch (_) {}
+  </script>
   <!-- Tailwind CSS v3 Play CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
+      darkMode: 'class',
       theme: {
         extend: {
           colors: {
@@ -37,22 +45,22 @@
   <link rel="stylesheet" href="style.css">
 </head>
 
-<body class="bg-white text-google-text font-sans w-screen h-screen overflow-hidden flex flex-col relative select-none">
+<body class="bg-white text-google-text dark:bg-[#202124] dark:text-[#e8eaed] font-sans w-screen h-screen overflow-hidden flex flex-col relative select-none transition-colors duration-200">
 
-  <!-- Background Watermark (SIGAL) -->
+  <!-- Background Watermark (SIGAL / GSAL) -->
   <div class="bg-watermark" aria-hidden="true">
     <span class="bg-watermark-text">SIGAL</span>
   </div>
 
   <!-- Top Navigation Bar -->
-  <header class="absolute top-0 left-0 w-full h-[64px] px-8 flex items-center justify-end gap-5 z-50">
-    <div class="flex items-center gap-5 text-sm font-medium text-slate-700">
-      <a href="developers" class="hover:text-blue-600 transition-colors">Geliştiriciler</a>
-      <a href="https://mail.google.com" target="_blank" class="hover:text-blue-600 transition-colors">Gmail</a>
+  <header class="absolute top-0 left-0 w-full h-[64px] px-8 flex items-center justify-end gap-3 sm:gap-4 z-50">
+    <div class="flex items-center gap-4 sm:gap-5 text-sm font-medium text-slate-700 dark:text-[#9aa0a6]">
+      <a href="developers" class="hover:text-blue-600 dark:hover:text-[#8ab4f8] transition-colors">Geliştiriciler</a>
+      <a href="https://mail.google.com" target="_blank" class="hover:text-blue-600 dark:hover:text-[#8ab4f8] transition-colors">Gmail</a>
       <!-- Google Araçları Menu -->
       <div class="relative">
         <button type="button" id="google-apps-trigger"
-          class="w-10 h-10 rounded-full flex items-center justify-center text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-colors cursor-pointer"
+          class="w-10 h-10 rounded-full flex items-center justify-center text-slate-600 dark:text-[#9aa0a6] hover:text-slate-900 dark:hover:text-[#e8eaed] hover:bg-slate-100 dark:hover:bg-[#303134] transition-colors cursor-pointer"
           title="Google Araçları" aria-label="Google Araçları">
           <svg viewBox="0 0 24 24" class="w-5 h-5 fill-current">
             <circle cx="5" cy="5" r="2"/>
@@ -74,8 +82,31 @@
         </div>
       </div>
     </div>
+
+    <!-- Quick Theme Toggle Button (Moon / Sun) -->
+    <button id="theme-toggle-btn"
+      class="w-10 h-10 rounded-full liquid-glass flex items-center justify-center text-slate-600 dark:text-[#9aa0a6] hover:text-slate-900 dark:hover:text-[#e8eaed] transition-all cursor-pointer"
+      aria-label="Gece Modunu Aç/Kapat" title="Gece Modu">
+      <!-- Sun icon (shown in dark mode) -->
+      <svg id="theme-sun-icon" viewBox="0 0 24 24" class="w-5 h-5 hidden" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="5"></circle>
+        <line x1="12" y1="1" x2="12" y2="3"></line>
+        <line x1="12" y1="21" x2="12" y2="23"></line>
+        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+        <line x1="1" y1="12" x2="3" y2="12"></line>
+        <line x1="21" y1="12" x2="23" y2="12"></line>
+        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+      </svg>
+      <!-- Moon icon (shown in light mode) -->
+      <svg id="theme-moon-icon" viewBox="0 0 24 24" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+      </svg>
+    </button>
+
     <button id="settings-trigger"
-      class="w-10 h-10 rounded-full liquid-glass flex items-center justify-center text-slate-600 hover:text-slate-900 transition-all cursor-pointer"
+      class="w-10 h-10 rounded-full liquid-glass flex items-center justify-center text-slate-600 dark:text-[#9aa0a6] hover:text-slate-900 dark:hover:text-[#e8eaed] transition-all cursor-pointer"
       aria-label="Ayarlar" title="Ayarlar">
       <svg viewBox="0 0 24 24" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2">
         <circle cx="12" cy="12" r="3" />
@@ -89,11 +120,11 @@
   <main class="w-full min-h-full flex flex-col items-center justify-start pt-[8vh] sm:pt-[10vh] pb-12 relative z-10 px-4">
     <!-- Refined Clock with Seconds (Stable natural flow, never overlapping) -->
     <div id="clock-container" class="flex flex-col items-center justify-center select-none mb-7 sm:mb-8">
-      <div class="flex items-baseline text-slate-800 leading-none">
+      <div class="flex items-baseline text-slate-800 dark:text-[#e8eaed] leading-none">
         <span id="clock-hm" class="text-7xl sm:text-8xl font-semibold tracking-tight">12:00</span>
-        <span id="clock-sec" class="text-3xl sm:text-4xl font-medium text-slate-400 ml-2.5 sm:ml-3">00</span>
+        <span id="clock-sec" class="text-3xl sm:text-4xl font-medium text-slate-400 dark:text-[#9aa0a6] ml-2.5 sm:ml-3">00</span>
       </div>
-      <div id="clock-date" class="text-sm sm:text-base font-medium text-slate-500 mt-2 tracking-wide capitalize">
+      <div id="clock-date" class="text-sm sm:text-base font-medium text-slate-500 dark:text-[#9aa0a6] mt-2 tracking-wide capitalize">
         1 Ocak Perşembe
       </div>
     </div>
@@ -104,7 +135,7 @@
       <div class="w-full relative">
         <form id="search-form" class="w-full h-13 rounded-full flex items-center px-4 py-2" autocomplete="off">
           <!-- Magnifier Icon (Left) -->
-          <span class="text-slate-500 mr-3 flex items-center justify-center">
+          <span class="text-slate-500 dark:text-[#9aa0a6] mr-3 flex items-center justify-center">
             <svg viewBox="0 0 24 24" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2">
               <circle cx="11" cy="11" r="8" />
               <line x1="21" y1="21" x2="16.65" y2="16.65" />
@@ -112,11 +143,11 @@
           </span>
 
           <input type="text" id="search-input"
-            class="flex-1 h-full bg-transparent border-0 outline-none text-slate-800 text-base font-medium placeholder-slate-500"
+            class="flex-1 h-full bg-transparent border-0 outline-none text-slate-800 dark:text-[#e8eaed] text-base font-medium placeholder-slate-500 dark:placeholder-[#9aa0a6]"
             placeholder="Google'da arayın veya bir URL yazın" autofocus spellcheck="false">
 
           <!-- Clear Button (Right) -->
-          <button type="button" id="clear-btn" class="p-1.5 text-slate-400 hover:text-slate-700 transition-colors"
+          <button type="button" id="clear-btn" class="p-1.5 text-slate-400 dark:text-[#9aa0a6] hover:text-slate-700 dark:hover:text-[#e8eaed] transition-colors"
             aria-label="Temizle" style="display: none;">
             <svg viewBox="0 0 24 24" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2">
               <line x1="18" y1="6" x2="6" y2="18" />
@@ -252,9 +283,9 @@
     class="fixed inset-0 bg-slate-900/25 backdrop-blur-md z-50 hidden items-center justify-center">
     <div class="w-[360px] liquid-modal-card rounded-3xl p-6 flex flex-col gap-4">
       <div class="flex items-center justify-between">
-        <span class="text-base font-semibold text-slate-800">Ayarlar</span>
+        <span class="text-base font-semibold text-slate-800 dark:text-[#e8eaed]">Ayarlar</span>
         <button id="modal-close"
-          class="p-1.5 rounded-full text-slate-500 hover:bg-white/60 hover:text-slate-800 transition-colors">
+          class="p-1.5 rounded-full text-slate-500 dark:text-[#9aa0a6] hover:bg-slate-100 dark:hover:bg-[#3c4043] hover:text-slate-800 dark:hover:text-[#e8eaed] transition-colors">
           <svg viewBox="0 0 24 24" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2">
             <line x1="18" y1="6" x2="6" y2="18" />
             <line x1="6" y1="6" x2="18" y2="18" />
@@ -262,50 +293,61 @@
         </button>
       </div>
 
+      <!-- Gece Modu (Dark Mode) -->
       <div class="flex items-center justify-between py-1.5">
-        <span class="text-sm font-medium text-slate-700">Sonuçları Yeni Sekmede Aç</span>
+        <span class="text-sm font-medium text-slate-700 dark:text-[#e8eaed]">Gece Modu</span>
+        <label class="relative inline-flex items-center cursor-pointer">
+          <input type="checkbox" id="setting-dark-mode" class="sr-only peer">
+          <div
+            class="w-9 h-5 bg-slate-300 dark:bg-slate-600 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600 dark:peer-checked:bg-blue-500">
+          </div>
+        </label>
+      </div>
+
+      <div class="flex items-center justify-between py-1.5">
+        <span class="text-sm font-medium text-slate-700 dark:text-[#e8eaed]">Sonuçları Yeni Sekmede Aç</span>
         <label class="relative inline-flex items-center cursor-pointer">
           <input type="checkbox" id="setting-new-tab" class="sr-only peer">
           <div
-            class="w-9 h-5 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600">
+            class="w-9 h-5 bg-slate-300 dark:bg-slate-600 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600 dark:peer-checked:bg-blue-500">
           </div>
         </label>
       </div>
 
       <div class="flex items-center justify-between py-1.5">
-        <span class="text-sm font-medium text-slate-700">Kısayolları Göster</span>
+        <span class="text-sm font-medium text-slate-700 dark:text-[#e8eaed]">Kısayolları Göster</span>
         <label class="relative inline-flex items-center cursor-pointer">
           <input type="checkbox" id="setting-show-shortcuts" checked class="sr-only peer">
           <div
-            class="w-9 h-5 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600">
+            class="w-9 h-5 bg-slate-300 dark:bg-slate-600 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600 dark:peer-checked:bg-blue-500">
           </div>
         </label>
       </div>
 
       <div class="flex items-center justify-between py-1.5">
-        <span class="text-sm font-medium text-slate-700">Ders Programını Göster</span>
+        <span class="text-sm font-medium text-slate-700 dark:text-[#e8eaed]">Ders Programını Göster</span>
         <label class="relative inline-flex items-center cursor-pointer">
           <input type="checkbox" id="setting-show-schedule" checked class="sr-only peer">
           <div
-            class="w-9 h-5 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600">
+            class="w-9 h-5 bg-slate-300 dark:bg-slate-600 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600 dark:peer-checked:bg-blue-500">
           </div>
         </label>
       </div>
 
       <div class="flex items-center justify-between py-1.5">
-        <span class="text-sm font-medium text-slate-700">Deneme Sayacı</span>
+        <span class="text-sm font-medium text-slate-700 dark:text-[#e8eaed]">Deneme Sayacı</span>
         <label class="relative inline-flex items-center cursor-pointer">
           <input type="checkbox" id="setting-show-exam-timer" checked class="sr-only peer">
           <div
-            class="w-9 h-5 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600">
+            class="w-9 h-5 bg-slate-300 dark:bg-slate-600 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600 dark:peer-checked:bg-blue-500">
           </div>
         </label>
       </div>
 
       <div class="flex items-center justify-between py-1.5">
-        <span class="text-sm font-medium text-slate-700">AI Arama Motoru</span>
+        <span class="text-sm font-medium text-slate-700 dark:text-[#e8eaed]">AI Arama Motoru</span>
         <select id="setting-ai-engine"
-          class="bg-slate-50 border border-slate-200 text-slate-700 text-xs rounded-xl px-2.5 py-1.5 outline-none focus:border-blue-500 font-medium cursor-pointer">
+          class="bg-slate-50 dark:bg-[#202124] border border-slate-200 dark:border-[#5f6368] text-slate-700 dark:text-[#e8eaed] text-xs rounded-xl px-2.5 py-1.5 outline-none focus:border-blue-500 font-medium cursor-pointer">
           <option value="google_ai">Google AI (AI Modu)</option>
           <option value="gemini">Google Gemini</option>
           <option value="perplexity">Perplexity</option>
@@ -315,7 +357,7 @@
       </div>
 
       <div class="flex items-center justify-between py-1.5">
-        <span class="text-sm font-medium text-slate-700">Chrome Eklentisi</span>
+        <span class="text-sm font-medium text-slate-700 dark:text-[#e8eaed]">Chrome Eklentisi</span>
         <a href="sigal-extension.zip" download="sigal-extension.zip" id="download-extension-btn"
           class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold text-white bg-blue-600 hover:bg-blue-700 transition-all cursor-pointer no-underline shadow-sm"
           title="Eklenti Paketini İndir">
@@ -328,10 +370,10 @@
         </a>
       </div>
 
-      <div class="flex items-center justify-between py-1.5 border-t border-slate-100 pt-3 mt-1">
-        <span class="text-sm font-medium text-slate-700">Geliştiriciler</span>
+      <div class="flex items-center justify-between py-1.5 border-t border-slate-100 dark:border-[#3c4043] pt-3 mt-1">
+        <span class="text-sm font-medium text-slate-700 dark:text-[#e8eaed]">Geliştiriciler</span>
         <a href="developers"
-          class="flex items-center gap-1 text-xs font-semibold text-blue-600 hover:text-blue-700 transition-colors no-underline">
+          class="flex items-center gap-1 text-xs font-semibold text-blue-600 dark:text-[#8ab4f8] hover:text-blue-700 dark:hover:text-[#aecbfa] transition-colors no-underline">
           <span>/developers</span>
           <svg viewBox="0 0 24 24" class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.2">
             <polyline points="9 18 15 12 9 6"/>
@@ -343,12 +385,12 @@
 
   <!-- Add Shortcut Modal (Liquid Glass) -->
   <div id="shortcut-modal"
-    class="fixed inset-0 bg-slate-900/25 backdrop-blur-md z-50 hidden items-center justify-center">
+    class="fixed inset-0 bg-slate-900/25 dark:bg-black/60 backdrop-blur-md z-50 hidden items-center justify-center">
     <div class="w-[330px] liquid-modal-card rounded-3xl p-6">
       <div class="flex items-center justify-between mb-4">
-        <span class="text-base font-semibold text-slate-800">Kısayol Ekle</span>
+        <span class="text-base font-semibold text-slate-800 dark:text-[#e8eaed]">Kısayol Ekle</span>
         <button id="shortcut-modal-close"
-          class="p-1.5 rounded-full text-slate-500 hover:bg-white/60 hover:text-slate-800 transition-colors">
+          class="p-1.5 rounded-full text-slate-500 dark:text-[#9aa0a6] hover:bg-slate-100 dark:hover:bg-[#3c4043] hover:text-slate-800 dark:hover:text-[#e8eaed] transition-colors">
           <svg viewBox="0 0 24 24" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2">
             <line x1="18" y1="6" x2="6" y2="18" />
             <line x1="6" y1="6" x2="18" y2="18" />
@@ -357,20 +399,20 @@
       </div>
       <form id="shortcut-form">
         <div class="flex flex-col gap-1.5 mb-3">
-          <label for="sc-title" class="text-xs text-slate-600 font-semibold">Ad</label>
+          <label for="sc-title" class="text-xs text-slate-600 dark:text-[#9aa0a6] font-semibold">Ad</label>
           <input type="text" id="sc-title"
-            class="w-full px-3.5 py-2 rounded-xl bg-white/70 border border-white/80 text-sm outline-none focus:border-blue-500 shadow-sm"
+            class="w-full px-3.5 py-2 rounded-xl bg-slate-50 dark:bg-[#202124] border border-slate-200 dark:border-[#5f6368] text-slate-800 dark:text-[#e8eaed] placeholder-slate-400 dark:placeholder-slate-500 text-sm outline-none focus:border-blue-500 shadow-sm"
             placeholder="YouTube" required>
         </div>
         <div class="flex flex-col gap-1.5 mb-4">
-          <label for="sc-url" class="text-xs text-slate-600 font-semibold">URL</label>
+          <label for="sc-url" class="text-xs text-slate-600 dark:text-[#9aa0a6] font-semibold">URL</label>
           <input type="text" id="sc-url"
-            class="w-full px-3.5 py-2 rounded-xl bg-white/70 border border-white/80 text-sm outline-none focus:border-blue-500 shadow-sm"
+            class="w-full px-3.5 py-2 rounded-xl bg-slate-50 dark:bg-[#202124] border border-slate-200 dark:border-[#5f6368] text-slate-800 dark:text-[#e8eaed] placeholder-slate-400 dark:placeholder-slate-500 text-sm outline-none focus:border-blue-500 shadow-sm"
             placeholder="youtube.com" required autocomplete="off" spellcheck="false">
         </div>
         <div class="flex justify-end gap-2">
           <button type="button" id="sc-cancel"
-            class="px-4 py-2 text-sm font-semibold text-slate-600 hover:bg-white/60 rounded-xl transition-colors">İptal</button>
+            class="px-4 py-2 text-sm font-semibold text-slate-600 dark:text-[#e8eaed] hover:bg-slate-100 dark:hover:bg-[#3c4043] rounded-xl transition-colors">İptal</button>
           <button type="submit"
             class="px-4 py-2 text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 rounded-xl transition-colors shadow-sm">Bitti</button>
         </div>

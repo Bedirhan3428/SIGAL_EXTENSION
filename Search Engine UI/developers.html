@@ -7,10 +7,17 @@
   <link rel="icon" type="image/svg+xml" href="logo.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@100..900&display=swap" rel="stylesheet">
+  <script>
+    try {
+      if (JSON.parse(localStorage.getItem('g_settings') || '{}').darkMode) {
+        document.documentElement.classList.add('dark');
+      }
+    } catch (_) {}
+  </script>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
+      darkMode: 'class',
       theme: {
         extend: {
           fontFamily: {
@@ -32,6 +39,10 @@
       -webkit-font-smoothing: antialiased;
       overflow-x: hidden;
     }
+    html.dark, html.dark body {
+      background-color: #202124 !important;
+      color: #e8eaed !important;
+    }
     .liquid-card {
       background: #ffffff;
       border: 1px solid #dfe1e5;
@@ -43,6 +54,22 @@
       box-shadow: 0 6px 20px rgba(32, 33, 36, 0.09);
       transform: translateY(-2px);
     }
+    html.dark .liquid-card {
+      background: #303134;
+      border-color: #3c4043;
+      color: #e8eaed;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+    }
+    html.dark .liquid-card:hover {
+      border-color: #5f6368;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+    }
+    html.dark .liquid-card h2 {
+      color: #e8eaed !important;
+    }
+    html.dark .liquid-card p {
+      color: #9aa0a6 !important;
+    }
     .social-pill {
       background: #f8f9fa;
       border: 1px solid #dfe1e5;
@@ -53,6 +80,36 @@
       border-color: #aecbfa;
       box-shadow: 0 3px 12px rgba(26, 115, 232, 0.12);
       transform: translateY(-2px);
+    }
+    html.dark .social-pill {
+      background: #303134;
+      border-color: #3c4043;
+      color: #e8eaed;
+    }
+    html.dark .social-pill:hover {
+      background: #3c4043;
+      border-color: #8ab4f8;
+      box-shadow: 0 3px 12px rgba(138, 180, 248, 0.15);
+    }
+    html.dark .social-pill span:first-child {
+      color: #e8eaed !important;
+    }
+    html.dark footer {
+      background-color: #171717 !important;
+      border-color: #3c4043 !important;
+    }
+    html.dark h1, html.dark h2 {
+      color: #e8eaed !important;
+    }
+    html.dark p, html.dark .text-slate-600 {
+      color: #9aa0a6 !important;
+    }
+    html.dark .bg-slate-100 {
+      background-color: #303134 !important;
+      color: #9aa0a6 !important;
+    }
+    html.dark #brand-footer-text {
+      color: #e8eaed !important;
     }
     #brand-footer-row {
       width: 100%;

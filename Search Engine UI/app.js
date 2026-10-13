@@ -8,15 +8,7 @@
   const GOOGLE_SEARCH_URL = 'https://www.google.com/search?q=';
   const GOOGLE_LUCKY_URL = 'https://www.google.com/search?btnI=I&q=';
 
-  const DEFAULT_SHORTCUTS = [
-    { id: '1', title: 'YouTube', url: 'https://www.youtube.com' },
-    { id: '2', title: 'GitHub', url: 'https://github.com' },
-    { id: '3', title: 'ChatGPT', url: 'https://chatgpt.com' },
-    { id: '4', title: 'X', url: 'https://x.com' },
-    { id: '5', title: 'Reddit', url: 'https://www.reddit.com' },
-    { id: '6', title: 'Vikipedi', url: 'https://tr.wikipedia.org' },
-    { id: '7', title: 'Gmail', url: 'https://mail.google.com' }
-  ];
+  const DEFAULT_SHORTCUTS = [];
 
   // State
   let settings = Object.assign({
@@ -24,30 +16,46 @@
     showShortcuts: true,
     showSchedule: true,
     showExamTimer: true,
-    aiEngine: 'google_ai'
+    aiEngine: 'google_ai',
+    darkMode: false
   }, JSON.parse(localStorage.getItem('g_settings') || '{}'));
 
+  // Dual School Schedules (GSAL Sabahçı: 07:30 - 12:25, SIGAL Öğlenci: 12:45 - 17:40)
   const SCHEDULE_DATA = {
-    week: [
-      { num: 1, start: '12:45', end: '13:15' },
-      { num: 2, start: '13:25', end: '13:55' },
-      { num: 3, start: '14:05', end: '14:35' },
-      { num: 4, start: '14:45', end: '15:15' },
-      { num: 5, start: '15:25', end: '15:55' },
-      { num: 6, start: '16:00', end: '16:30' },
-      { num: 7, start: '16:35', end: '17:05' },
-      { num: 8, start: '17:10', end: '17:40' }
-    ],
-    fri: [
-      { num: 1, start: '13:05', end: '13:35' },
-      { num: 2, start: '13:40', end: '14:10' },
-      { num: 3, start: '14:15', end: '14:45' },
-      { num: 4, start: '14:50', end: '15:20' },
-      { num: 5, start: '15:25', end: '15:55' },
-      { num: 6, start: '16:00', end: '16:30' },
-      { num: 7, start: '16:35', end: '17:05' },
-      { num: 8, start: '17:10', end: '17:40' }
-    ]
+    gsal: {
+      week: [
+        { num: 1, start: '07:30', end: '08:00' },
+        { num: 2, start: '08:10', end: '08:40' },
+        { num: 3, start: '08:50', end: '09:20' },
+        { num: 4, start: '09:30', end: '10:00' },
+        { num: 5, start: '10:10', end: '10:40' },
+        { num: 6, start: '10:45', end: '11:15' },
+        { num: 7, start: '11:20', end: '11:50' },
+        { num: 8, start: '11:55', end: '12:25' }
+      ]
+    },
+    sigal: {
+      week: [
+        { num: 1, start: '12:45', end: '13:15' },
+        { num: 2, start: '13:25', end: '13:55' },
+        { num: 3, start: '14:05', end: '14:35' },
+        { num: 4, start: '14:45', end: '15:15' },
+        { num: 5, start: '15:25', end: '15:55' },
+        { num: 6, start: '16:00', end: '16:30' },
+        { num: 7, start: '16:35', end: '17:05' },
+        { num: 8, start: '17:10', end: '17:40' }
+      ],
+      fri: [
+        { num: 1, start: '13:05', end: '13:35' },
+        { num: 2, start: '13:40', end: '14:10' },
+        { num: 3, start: '14:15', end: '14:45' },
+        { num: 4, start: '14:50', end: '15:20' },
+        { num: 5, start: '15:25', end: '15:55' },
+        { num: 6, start: '16:00', end: '16:30' },
+        { num: 7, start: '16:35', end: '17:05' },
+        { num: 8, start: '17:10', end: '17:40' }
+      ]
+    }
   };
 
   // Default to google_ai if not set or previously set to perplexity
@@ -64,9 +72,13 @@
     claude: (q) => q ? `https://claude.ai/new?q=${encodeURIComponent(q)}` : 'https://claude.ai'
   };
 
-  let shortcuts = JSON.parse(localStorage.getItem('g_shortcuts') || JSON.stringify(DEFAULT_SHORTCUTS));
-  // Normalize existing shortcuts so they always have https://
-  shortcuts = shortcuts.map(item => {
+  // Clean out legacy presets (1-7) completely as requested
+  const LEGACY_PRESET_IDS = new Set(['1', '2', '3', '4', '5', '6', '7']);
+  let storedShortcuts = JSON.parse(localStorage.getItem('g_shortcuts') || '[]');
+  storedShortcuts = storedShortcuts.filter(item => !LEGACY_PRESET_IDS.has(String(item.id)));
+  localStorage.setItem('g_shortcuts', JSON.stringify(storedShortcuts));
+
+  let shortcuts = storedShortcuts.map(item => {
     let u = (item.url || '').trim();
     if (u && !u.startsWith('http://') && !u.startsWith('https://')) {
       u = 'https://' + u;
@@ -214,10 +226,14 @@ const GOOGLE_APPS = [
     }
   }
 
-  // Modals
+  // Modals & Theme
+  const themeToggleBtn = document.getElementById('theme-toggle-btn');
+  const themeSunIcon = document.getElementById('theme-sun-icon');
+  const themeMoonIcon = document.getElementById('theme-moon-icon');
   const settingsTrigger = document.getElementById('settings-trigger');
   const settingsModal = document.getElementById('settings-modal');
   const modalClose = document.getElementById('modal-close');
+  const settingDarkMode = document.getElementById('setting-dark-mode');
   const settingNewTab = document.getElementById('setting-new-tab');
   const settingShowShortcuts = document.getElementById('setting-show-shortcuts');
   const settingShowSchedule = document.getElementById('setting-show-schedule');
@@ -270,6 +286,17 @@ const GOOGLE_APPS = [
 
   // Apply Settings
   function applySettings() {
+    if (settingDarkMode) settingDarkMode.checked = !!settings.darkMode;
+    if (settings.darkMode) {
+      document.documentElement.classList.add('dark');
+      if (themeSunIcon) themeSunIcon.classList.remove('hidden');
+      if (themeMoonIcon) themeMoonIcon.classList.add('hidden');
+    } else {
+      document.documentElement.classList.remove('dark');
+      if (themeSunIcon) themeSunIcon.classList.add('hidden');
+      if (themeMoonIcon) themeMoonIcon.classList.remove('hidden');
+    }
+
     settingNewTab.checked = settings.openInNewTab;
     settingShowShortcuts.checked = settings.showShortcuts;
     if (settingShowSchedule) settingShowSchedule.checked = settings.showSchedule !== false;
@@ -560,6 +587,20 @@ const GOOGLE_APPS = [
     if (e.target === settingsModal) closeModal(settingsModal);
   });
 
+  if (settingDarkMode) {
+    settingDarkMode.addEventListener('change', () => {
+      settings.darkMode = settingDarkMode.checked;
+      applySettings();
+    });
+  }
+
+  if (themeToggleBtn) {
+    themeToggleBtn.addEventListener('click', () => {
+      settings.darkMode = !settings.darkMode;
+      applySettings();
+    });
+  }
+
   settingNewTab.addEventListener('change', () => {
     settings.openInNewTab = settingNewTab.checked;
     applySettings();
@@ -632,7 +673,7 @@ const GOOGLE_APPS = [
     }
   });
 
-  // Live Lesson / Break Countdown Controller
+  // Live Lesson / Break Countdown Controller & Dynamic Watermark
   function toSeconds(timeStr) {
     const [h, m] = timeStr.split(':').map(Number);
     return h * 3600 + m * 60;
@@ -649,17 +690,42 @@ const GOOGLE_APPS = [
     return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
   }
 
+  // Dynamic Background Watermark (06:00-12:30 GSAL, 12:30-18:00 SIGAL, 18:00-06:00 Boş)
+  function updateWatermark() {
+    const watermarkEl = document.querySelector('.bg-watermark-text');
+    const watermarkWrap = document.querySelector('.bg-watermark');
+    if (!watermarkEl || !watermarkWrap) return;
+
+    const now = new Date();
+    const currentMins = now.getHours() * 60 + now.getMinutes();
+
+    if (currentMins >= 360 && currentMins < 750) {
+      // 06:00 - 12:30 -> GSAL
+      watermarkWrap.style.display = 'flex';
+      if (watermarkEl.textContent !== 'GSAL') watermarkEl.textContent = 'GSAL';
+    } else if (currentMins >= 750 && currentMins < 1080) {
+      // 12:30 - 18:00 -> SIGAL
+      watermarkWrap.style.display = 'flex';
+      if (watermarkEl.textContent !== 'SIGAL') watermarkEl.textContent = 'SIGAL';
+    } else {
+      // 18:00 - 06:00 -> Boş
+      watermarkWrap.style.display = 'none';
+      if (watermarkEl.textContent !== '') watermarkEl.textContent = '';
+    }
+  }
+
   function updateLessonCountdown() {
     if (!scheduleCard || !lessonStatusTitle) return;
 
     const now = new Date();
     const day = now.getDay(); // 0: Sun, 1: Mon, ..., 5: Fri, 6: Sat
     const nowSec = now.getHours() * 3600 + now.getMinutes() * 60 + now.getSeconds();
+    const currentMins = now.getHours() * 60 + now.getMinutes();
 
     // Weekend (Cumartesi / Pazar)
     if (day === 0 || day === 6) {
       lessonStatusTitle.textContent = 'Hafta Sonu';
-      lessonStatusSub.textContent = 'Pazartesi 12:45\'te dersler başlıyor';
+      lessonStatusSub.textContent = 'Pazartesi 07:30\'da dersler başlıyor (GSAL)';
       lessonCountdown.textContent = '--:--';
       lessonCountdownLabel.textContent = 'Tatil';
       statusIndicator.className = 'w-3 h-3 rounded-full bg-slate-400 ring-4 ring-slate-100 flex-shrink-0';
@@ -668,17 +734,39 @@ const GOOGLE_APPS = [
       return;
     }
 
-    const schedule = (day === 5) ? SCHEDULE_DATA.fri : SCHEDULE_DATA.week;
+    // Determine active school session based on time of day:
+    // 06:00 - 12:30 -> GSAL Sabahçı
+    // 12:30 - 18:00 -> SIGAL Öğlenci
+    // 18:00 - 06:00 -> Akşam / Gece Dinlenme
+    let schoolName = '';
+    let schedule = null;
+
+    if (currentMins >= 360 && currentMins < 750) {
+      schoolName = 'GSAL';
+      schedule = SCHEDULE_DATA.gsal.week;
+    } else if (currentMins >= 750 && currentMins < 1080) {
+      schoolName = 'SIGAL';
+      schedule = (day === 5) ? SCHEDULE_DATA.sigal.fri : SCHEDULE_DATA.sigal.week;
+    } else {
+      lessonStatusTitle.textContent = 'Dersler Bitti';
+      lessonStatusSub.textContent = 'Yarın ilk ders: 07:30 (GSAL)';
+      lessonCountdown.textContent = '--:--';
+      lessonCountdownLabel.textContent = 'İyi Dinlenmeler';
+      statusIndicator.className = 'w-3 h-3 rounded-full bg-slate-400 ring-4 ring-slate-100 flex-shrink-0';
+      lessonProgressBar.className = 'h-full bg-slate-400 rounded-full';
+      lessonProgressBar.style.width = '100%';
+      return;
+    }
+
     const firstLesson = schedule[0];
     const lastLesson = schedule[schedule.length - 1];
-
     const firstStartSec = toSeconds(firstLesson.start);
     const lastEndSec = toSeconds(lastLesson.end);
 
-    // Before school starts today
+    // Before this session's first lesson
     if (nowSec < firstStartSec) {
       const remainingSec = firstStartSec - nowSec;
-      lessonStatusTitle.textContent = 'Dersler Başlamadı';
+      lessonStatusTitle.textContent = `${schoolName} • 1. Derse Kaldı`;
       lessonStatusSub.textContent = `1. Ders: ${firstLesson.start} - ${firstLesson.end}`;
       lessonCountdown.textContent = formatCountdown(remainingSec);
       lessonCountdownLabel.textContent = '1. derse kaldı';
@@ -688,19 +776,27 @@ const GOOGLE_APPS = [
       return;
     }
 
-    // After all lessons end today
+    // After this session's lessons end
     if (nowSec >= lastEndSec) {
-      lessonStatusTitle.textContent = 'Dersler Bitti';
-      lessonStatusSub.textContent = (day === 4) ? 'Yarın ilk ders: 13:05' : (day === 5 ? 'Pazartesi ilk ders: 12:45' : 'Yarın ilk ders: 12:45');
-      lessonCountdown.textContent = '--:--';
-      lessonCountdownLabel.textContent = 'İyi Dinlenmeler';
+      if (schoolName === 'GSAL') {
+        const sigalStart = (day === 5) ? '13:05' : '12:45';
+        lessonStatusTitle.textContent = 'GSAL Dersleri Bitti';
+        lessonStatusSub.textContent = `SIGAL 1. Ders: ${sigalStart}`;
+        lessonCountdown.textContent = '--:--';
+        lessonCountdownLabel.textContent = 'Öğle Arası';
+      } else {
+        lessonStatusTitle.textContent = 'SIGAL Dersleri Bitti';
+        lessonStatusSub.textContent = (day === 5) ? 'Pazartesi ilk ders: 07:30 (GSAL)' : 'Yarın ilk ders: 07:30 (GSAL)';
+        lessonCountdown.textContent = '--:--';
+        lessonCountdownLabel.textContent = 'İyi Dinlenmeler';
+      }
       statusIndicator.className = 'w-3 h-3 rounded-full bg-slate-400 ring-4 ring-slate-100 flex-shrink-0';
       lessonProgressBar.className = 'h-full bg-slate-400 rounded-full';
       lessonProgressBar.style.width = '100%';
       return;
     }
 
-    // Check lessons and breaks
+    // Check lessons and breaks in active session
     for (let i = 0; i < schedule.length; i++) {
       const lesson = schedule[i];
       const startSec = toSeconds(lesson.start);
@@ -713,7 +809,7 @@ const GOOGLE_APPS = [
         const elapsed = nowSec - startSec;
         const pct = Math.min(100, Math.max(0, (elapsed / totalDuration) * 100));
 
-        lessonStatusTitle.textContent = `${lesson.num}. Ders`;
+        lessonStatusTitle.textContent = `${schoolName} • ${lesson.num}. Ders`;
         lessonStatusSub.textContent = `${lesson.start} - ${lesson.end}`;
         lessonCountdown.textContent = formatCountdown(remainingSec);
         lessonCountdownLabel.textContent = 'teneffüse kaldı';
@@ -735,12 +831,12 @@ const GOOGLE_APPS = [
           const elapsed = nowSec - breakStartSec;
           const pct = Math.min(100, Math.max(0, (elapsed / totalBreak) * 100));
 
-          lessonStatusTitle.textContent = 'Teneffüs';
-          lessonStatusSub.textContent = `Sıradaki: ${nextLesson.num}. Ders (${nextLesson.start})`;
+          lessonStatusTitle.textContent = `${schoolName} • ${lesson.num}. Teneffüs`;
+          lessonStatusSub.textContent = `${lesson.end} - ${nextLesson.start}`;
           lessonCountdown.textContent = formatCountdown(remainingSec);
           lessonCountdownLabel.textContent = `${nextLesson.num}. derse kaldı`;
-          statusIndicator.className = 'w-3 h-3 rounded-full bg-amber-500 animate-pulse ring-4 ring-amber-100 flex-shrink-0';
-          lessonProgressBar.className = 'h-full bg-amber-500 rounded-full transition-all duration-1000 ease-linear';
+          statusIndicator.className = 'w-3 h-3 rounded-full bg-emerald-500 animate-pulse ring-4 ring-emerald-100 flex-shrink-0';
+          lessonProgressBar.className = 'h-full bg-emerald-500 rounded-full transition-all duration-1000 ease-linear';
           lessonProgressBar.style.width = `${pct}%`;
           return;
         }
@@ -1141,11 +1237,13 @@ const GOOGLE_APPS = [
   applySettings();
   renderShortcuts();
   renderGoogleApps();
+  updateWatermark();
   updateLessonCountdown();
   renderExamTimer();
   updateClock();
   setInterval(() => {
     updateClock();
+    updateWatermark();
     updateLessonCountdown();
     tickExamTimer();
   }, 1000);
